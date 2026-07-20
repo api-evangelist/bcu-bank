@@ -1,0 +1,80 @@
+aid: bcu-bank
+name: BCU Bank
+review:
+  question: Does BCU Bank expose a live, public Consumer Data Right (CDR) Product Reference Data API, and does it run a proprietary developer portal?
+  answer: true
+  date: '2026-07-20'
+  reviewer: API Evangelist
+  cdrPrdConfirmed: true
+  developerPortal: false
+  specProvenance: cds-standard
+findings:
+  summary: |
+    BCU Bank is a customer-owned banking brand of Police & Nurses Limited
+    (ABN 69 087 651 876), the mutual bank created when Bananacoast Community
+    Credit Union merged into the P&N Group. As an ADI it is a CDR Data Holder.
+    Its one confirmed public, unauthenticated API surface is the Consumer
+    Data Right Product Reference Data (PRD) endpoint, verified live at
+    https://public.cdr-api.bcu.com.au/cds-au/v1/banking/products returning
+    HTTP 200 with a data.products array (76 products, brand "BCU"). The host
+    negotiates the CDS x-v version header: x-v 3 and below return 406
+    Unsupported Version, while x-v 4 and x-v 5 return 200 (x-v 5 is the
+    maximum supported). BCU does NOT operate a general-purpose developer
+    portal - developer.bcu.com.au does not resolve and no CDR/Open Banking
+    developer program is published; the CDR obligations are described only on
+    the P&N Group Consumer Data Right Policy page. The broader CDR banking
+    data-sharing endpoints (accounts, transactions, payments) exist but are
+    NOT public: they are gated to CDR Accredited Data Recipients under the
+    OAuth2/OIDC FAPI consent and authorization model. The API contract is the
+    shared DSB Consumer Data Standards "CDR Banking API" OpenAPI (v1.36.0,
+    OpenAPI 3.0.3), harvested here verbatim - it is the industry-wide CDS
+    standard, NOT a BCU-proprietary specification.
+  authModel:
+    productReferenceData: none (public, unauthenticated)
+    consumerDataSharing: OAuth2 / OIDC FAPI 1.0 (CDR ADR accreditation + consumer consent)
+    standard: DSB Consumer Data Standards (Consumer Data Right / Open Banking)
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://public.cdr-api.bcu.com.au/cds-au/v1
+      documented: true
+      note: CDS-conformant banking API. Public PRD endpoints require no auth; data-sharing endpoints require CDR ADR + consent.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket surface; CDR is REST-only over HTTPS with mandatory x-v version headers.
+  endpointsConfirmed:
+    - GET https://public.cdr-api.bcu.com.au/cds-au/v1/banking/products (HTTP 200, x-v 4/5, 76 products)
+  versionNegotiation:
+    header: x-v
+    supported: [4, 5]
+    unsupportedReturns406: [1, 2, 3]
+    maxVersion: 5
+  specProvenanceNote: |
+    openapi/bcu-bank-cds-banking-products-openapi.yml is the shared DSB
+    Consumer Data Standards "CDR Banking API" (title in-spec: "CDR Banking
+    API", version 1.36.0), sourced from
+    https://raw.githubusercontent.com/ConsumerDataStandardsAustralia/standards/master/swagger-gen/api/cds_banking.json
+    and converted JSON->YAML verbatim. It defines the banking sector contract
+    (including GET /banking/products) that all Australian data holders,
+    including BCU, must implement. It is NOT a BCU-authored or BCU-specific
+    document.
+sources:
+  - url: https://public.cdr-api.bcu.com.au/cds-au/v1/banking/products
+    type: APIReference
+    note: Live PRD endpoint. HTTP 200 at x-v 4 and 5; 406 Unsupported Version at x-v 1-3; meta.totalRecords 76; products carry brand "BCU".
+  - url: https://www.bcu.com.au/consumer-data-right-policy
+    type: Documentation
+    note: P&N Group / BCU Bank Consumer Data Right Policy (v3, effective 30 December 2024). Confirms Police & Nurses Limited ABN 69 087 651 876 as Data Holder, product-data access, and the consent-based data-sharing model.
+  - url: https://www.bcu.com.au/
+    type: Website
+    note: HTTP 200. Primary BCU Bank website.
+  - url: https://consumerdatastandardsaustralia.github.io/standards/
+    type: APIReference
+    note: DSB Consumer Data Standards - the authoritative published CDR Banking API reference.
+  - url: https://raw.githubusercontent.com/ConsumerDataStandardsAustralia/standards/master/swagger-gen/api/cds_banking.json
+    type: OpenAPI
+    note: Source of the harvested CDS Banking OpenAPI (3.0.3, CDR Banking API v1.36.0, 16 paths). Shared standard, not bank-specific.
+  - url: https://developer.bcu.com.au/
+    type: DeveloperPortal
+    note: Does not resolve (DNS/connection failure). No BCU developer portal exists.

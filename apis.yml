@@ -1,0 +1,100 @@
+aid: bcu-bank
+url: https://raw.githubusercontent.com/api-evangelist/bcu-bank/refs/heads/main/apis.yml
+name: BCU Bank
+kind: company
+description: BCU Bank is a customer-owned banking brand operated by Police & Nurses
+  Limited (ABN 69 087 651 876), the mutual bank formed when Bananacoast Community
+  Credit Union merged into the P&N Group. Headquartered on the New South Wales north
+  coast, BCU serves retail and business members with everyday accounts, savings, home
+  and personal lending, and cards. As an Authorised Deposit-taking Institution, BCU
+  is a Consumer Data Right (CDR) Data Holder that exposes a public, unauthenticated
+  Product Reference Data (PRD) API under the DSB Consumer Data Standards, and supports
+  consumer data sharing to accredited data recipients through the CDR consent and
+  Open Banking model. BCU does not run a general-purpose developer portal; its
+  programmatic surface is the standards-based CDR banking API.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Financial
+- Banks
+- Open Banking
+- CDR
+- Consumer Data Right
+- Consumer Banking
+- Mutual Bank
+- Australia
+created: '2026-07-20'
+modified: '2026-07-20'
+specificationVersion: '0.19'
+apis:
+- aid: bcu-bank:bcu-bank-cdr-product-reference-data-api
+  name: BCU Bank CDR Product Reference Data API
+  tags:
+  - CDR
+  - Open Banking
+  - Product Reference Data
+  - Banking Products
+  - Public API
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.bcu.com.au/consumer-data-right-policy
+  baseURL: https://public.cdr-api.bcu.com.au/cds-au/v1
+  properties:
+  - url: https://www.bcu.com.au/consumer-data-right-policy
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-products
+    type: APIReference
+  - url: openapi/bcu-bank-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Public, unauthenticated Consumer Data Right Product Reference Data (PRD)
+    API conforming to the DSB Consumer Data Standards. GET /banking/products (and
+    /banking/products/{productId}) returns BCU's openly available banking products
+    - transaction and savings accounts, residential mortgages, personal loans and
+    cards - with fees, rates and eligibility. Confirmed live at
+    https://public.cdr-api.bcu.com.au/cds-au/v1/banking/products (HTTP 200, x-v up
+    to 5, 76 products, brand "BCU").
+- aid: bcu-bank:bcu-bank-cdr-consumer-data-sharing-api
+  name: BCU Bank CDR Consumer Data Sharing API
+  tags:
+  - CDR
+  - Open Banking
+  - Consumer Data Sharing
+  - OIDC
+  - FAPI
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.bcu.com.au/consumer-data-right-policy
+  baseURL: https://public.cdr-api.bcu.com.au/cds-au/v1
+  properties:
+  - url: https://www.bcu.com.au/consumer-data-right-policy
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api
+    type: APIReference
+  - url: openapi/bcu-bank-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Authenticated Consumer Data Right banking data-sharing surface (accounts,
+    balances, transactions, direct debits, payees and payment scheduling) defined by
+    the DSB Consumer Data Standards. Not public - access is restricted to CDR
+    Accredited Data Recipients acting on explicit member consent via the CDR
+    OAuth2/OIDC FAPI authorization and consent flow. Listed for completeness of BCU's
+    CDR Data Holder obligations; the underlying contract is the shared CDS Banking
+    OpenAPI, not a BCU-proprietary spec.
+common:
+- type: Website
+  url: https://www.bcu.com.au/
+- type: About
+  url: https://www.bcu.com.au/about/
+- type: Documentation
+  url: https://www.bcu.com.au/consumer-data-right-policy
+- type: LinkedIn
+  url: https://www.linkedin.com/company/bcu
+- type: Blog
+  url: https://www.bcu.com.au/news-and-media/
+- type: TermsOfService
+  url: https://www.bcu.com.au/important-information/terms-and-conditions/
+- type: PrivacyPolicy
+  url: https://www.bcu.com.au/important-information/privacy/
+- type: Support
+  url: https://www.bcu.com.au/help-centre/
+- type: Contact
+  url: https://www.bcu.com.au/contact/
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
