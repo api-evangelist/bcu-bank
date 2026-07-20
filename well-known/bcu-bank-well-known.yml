@@ -1,0 +1,39 @@
+generated: '2026-07-20'
+method: searched
+source: live probes of /.well-known/* on BCU hosts
+hosts:
+- https://www.bcu.com.au
+- https://public.cdr-api.bcu.com.au
+documents:
+- path: /.well-known/security.txt
+  host: https://www.bcu.com.au
+  status: 200
+  file: bcu-bank-security.txt
+  format: RFC 9116
+- path: /.well-known/security.txt
+  host: https://public.cdr-api.bcu.com.au
+  status: 404
+- path: /.well-known/openid-configuration
+  host: https://www.bcu.com.au
+  status: 404
+- path: /.well-known/openid-configuration
+  host: https://public.cdr-api.bcu.com.au
+  status: 404
+- path: /.well-known/oauth-authorization-server
+  host: https://www.bcu.com.au
+  status: 404
+- path: /.well-known/oauth-authorization-server
+  host: https://public.cdr-api.bcu.com.au
+  status: 404
+- path: /.well-known/api-catalog
+  host: https://www.bcu.com.au
+  status: 404
+- path: /.well-known/ai-plugin.json
+  host: https://www.bcu.com.au
+  status: 404
+notes: >-
+  The CDR OIDC discovery document (/.well-known/openid-configuration) for a Data
+  Holder is published by the Data Holder Brand's identity provider host used in
+  the CDR register, not by the public PRD resource host or the marketing site;
+  it is not reachable at either probed host. The public.cdr-api.bcu.com.au host
+  serves only the unauthenticated Product Reference Data endpoints.

@@ -1,0 +1,54 @@
+generated: '2026-07-20'
+method: searched
+source: openapi/bcu-bank-cds-banking-products-openapi.yml + DSB Consumer Data Standards (FAPI/OIDC security profile)
+docs: https://consumerdatastandardsaustralia.github.io/standards/#security-profile
+summary:
+  types:
+  - none
+  - oauth2
+  - openIdConnect
+  - mutualTLS
+  oauth2_flows:
+  - authorizationCode
+  notes: >-
+    The CDS Banking OpenAPI does not declare formal components.securitySchemes;
+    the CDR security model is defined normatively by the DSB Consumer Data
+    Standards Security Profile rather than inline in each Data Holder spec.
+    Authentication is captured here from the standard plus the per-operation
+    x-scopes present in the spec.
+surfaces:
+- surface: Product Reference Data (PRD)
+  authenticated: false
+  scheme: none
+  detail: >-
+    GET /banking/products and /banking/products/{productId} are public and
+    unauthenticated. Callers still send CDS protocol headers (x-v version
+    negotiation, optional x-min-v). Confirmed live and public at
+    https://public.cdr-api.bcu.com.au/cds-au/v1/banking/products (HTTP 200).
+- surface: Consumer data sharing (authenticated banking resources)
+  authenticated: true
+  schemes:
+  - type: oauth2
+    flow: authorizationCode
+    detail: >-
+      CDR authorization-code flow with PKCE (S256) under the OIDC Hybrid/
+      authorization-code profile; access tokens are bearer tokens scoped to the
+      CDR banking scopes below. Consent is captured through the CDR consent
+      (Authorisation) flow; access is restricted to Accredited Data Recipients.
+  - type: openIdConnect
+    detail: >-
+      OpenID Connect for identity and consent, per the CDR/FAPI profile
+      (request objects, ID tokens).
+  - type: mutualTLS
+    detail: >-
+      Mutual TLS is required on the resource server (the spec's only declared
+      server is described "MTLS": https://mtls.dh.example.com/cds-au/v1) and for
+      client authentication (tls_client_auth / private_key_jwt) per FAPI 1.0
+      Advanced.
+  fapi: FAPI 1.0 Advanced
+  request_headers:
+  - x-fapi-interaction-id
+  - x-fapi-auth-date
+  - x-fapi-customer-ip-address
+  - x-cds-client-headers
+scopes_ref: scopes/bcu-bank-scopes.yml

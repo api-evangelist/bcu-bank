@@ -1,0 +1,57 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/bcu-bank-cds-banking-products-openapi.yml + DSB Consumer Data Standards
+docs: https://consumerdatastandardsaustralia.github.io/standards/#introduction
+authentication:
+  style: >-
+    Public (no auth) for Product Reference Data; CDR OAuth2 authorization-code +
+    PKCE with OIDC and MTLS (FAPI 1.0 Advanced) for consumer data sharing.
+  ref: authentication/bcu-bank-authentication.yml
+idempotency:
+  supported: false
+  reason: Read-only API - every operation is a GET; there are no state-changing requests to make idempotent.
+pagination:
+  style: page-number
+  request_params:
+  - page
+  - page-size
+  response_fields:
+  - meta.totalRecords
+  - meta.totalPages
+  - links.self
+  - links.first
+  - links.prev
+  - links.next
+  - links.last
+  max_page_size: 1000
+  note: CDS page-based pagination; page-size defaults to 25 and is capped at 1000 by the standard.
+envelope:
+  success: '{ "data": { ... }, "links": { ... }, "meta": { ... } }'
+  error:
+    shape: '{ "errors": [ { "code", "title", "detail", "meta": { "urn" } } ] }'
+    ref: errors/bcu-bank-problem-types.yml
+versioning:
+  style: per-endpoint header version
+  request_headers:
+  - x-v
+  - x-min-v
+  response_headers:
+  - x-v
+  ref: lifecycle/bcu-bank-lifecycle.yml
+request_tracing:
+  header: x-fapi-interaction-id
+  detail: >-
+    Client-supplied RFC 4122 UUID echoed back by the Data Holder; used to
+    correlate a request/response pair across the CDR ecosystem. Accompanied by
+    x-fapi-auth-date and x-fapi-customer-ip-address on authenticated calls.
+security_headers:
+- x-fapi-interaction-id
+- x-fapi-auth-date
+- x-fapi-customer-ip-address
+- x-cds-client-headers
+rate_limiting:
+  note: >-
+    Rate/traffic thresholds are governed by the DSB Consumer Data Standards
+    non-functional requirements (per-session and per-day transaction thresholds)
+    rather than BCU-published limit headers.
+  ref: https://consumerdatastandardsaustralia.github.io/standards/#non-functional-requirements

@@ -1,0 +1,71 @@
+generated: '2026-07-20'
+method: derived
+status: candidate
+source: openapi/bcu-bank-cds-banking-products-openapi.yml
+note: >-
+  No official BCU-hosted MCP server was found. This is a candidate tool list
+  derived one-to-one from the CDS Banking OpenAPI operations. The Product tools
+  work against the public PRD endpoint; the account/transaction/payment tools
+  require a CDR consent-scoped access token (see scopes/bcu-bank-scopes.yml) and
+  MTLS, so they are only usable by an Accredited Data Recipient.
+server:
+  name: bcu-bank
+  transport: http
+tools:
+- name: list_banking_products
+  description: List BCU's publicly available banking products (public, no auth).
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#listBankingProducts
+- name: get_banking_product_detail
+  description: Get detail for a single banking product (public, no auth).
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#getBankingProductDetail
+- name: list_banking_accounts
+  description: List a consented customer's accounts.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#listBankingAccounts
+- name: get_banking_account_detail
+  description: Get detail for a specific account.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#getBankingAccountDetail
+- name: list_banking_balances_bulk
+  description: Get balances for all consented accounts.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#listBankingBalancesBulk
+- name: list_banking_balances_specific_accounts
+  description: Get balances for a filtered set of accounts.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#listBankingBalancesSpecificAccounts
+- name: get_banking_balance
+  description: Get the balance for a single account.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#getBankingBalance
+- name: list_banking_transactions
+  description: List transactions for an account.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#listBankingTransactions
+- name: get_banking_transaction_detail
+  description: Get detail for a single transaction.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#getBankingTransactionDetail
+- name: list_direct_debits
+  description: List direct debits for an account.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#listDirectDebits
+- name: list_direct_debits_bulk
+  description: List direct debits across all consented accounts.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#listDirectDebitsBulk
+- name: list_direct_debits_specific_accounts
+  description: List direct debits for a filtered set of accounts.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#listDirectDebitsSpecificAccounts
+- name: list_scheduled_payments
+  description: List scheduled payments for an account.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#listScheduledPayments
+- name: list_scheduled_payments_bulk
+  description: List scheduled payments across all consented accounts.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#listScheduledPaymentsBulk
+- name: list_scheduled_payments_specific_accounts
+  description: List scheduled payments for a filtered set of accounts.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#listScheduledPaymentsSpecificAccounts
+- name: list_instalment_plans
+  description: List instalment plans for an account.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#listInstalmentPlans
+- name: list_instalment_plans_bulk
+  description: List instalment plans across all consented accounts.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#listInstalmentPlansBulk
+- name: list_banking_payees
+  description: List a consented customer's saved payees.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#listBankingPayees
+- name: get_banking_payee_detail
+  description: Get detail for a single payee.
+  source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#getBankingPayeeDetail

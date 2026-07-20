@@ -1,0 +1,35 @@
+# BCU Bank
+
+> BCU Bank is a customer-owned banking brand operated by Police & Nurses Limited (P&N Group), an Australian mutual Authorised Deposit-taking Institution and Consumer Data Right (CDR) Data Holder. Its programmatic surface is the standards-based CDR Banking API defined by the DSB Consumer Data Standards: a public, unauthenticated Product Reference Data (PRD) API, plus an authenticated consumer data-sharing surface restricted to accredited data recipients under the CDR OAuth2/OIDC FAPI consent model.
+
+## APIs
+
+- [BCU Bank CDR Product Reference Data API](https://www.bcu.com.au/consumer-data-right-policy): Public PRD - GET /banking/products and /banking/products/{productId}. Live at https://public.cdr-api.bcu.com.au/cds-au/v1/banking/products
+- [BCU Bank CDR Consumer Data Sharing API](https://www.bcu.com.au/consumer-data-right-policy): Authenticated accounts/balances/transactions/direct-debits/payees/scheduled-payments for CDR Accredited Data Recipients
+
+## Specs
+
+- [CDS Banking OpenAPI](openapi/bcu-bank-cds-banking-products-openapi.yml): DSB Consumer Data Standards CDR Banking API 1.36.0 (19 GET operations)
+- [OpenAPI Overlay](overlays/bcu-bank-cds-banking-products-overlay.yaml): API Evangelist enhancements
+
+## Artifacts
+
+- [Authentication](authentication/bcu-bank-authentication.yml): public PRD (none) + OAuth2/OIDC/MTLS FAPI 1.0 Advanced for data sharing
+- [OAuth Scopes](scopes/bcu-bank-scopes.yml): CDR banking data-cluster scopes (bank:accounts.basic:read, bank:transactions:read, bank:regular_payments:read, bank:payees:read, bank:accounts.detail:read)
+- [Conventions](conventions/bcu-bank-conventions.yml): page/page-size pagination, x-v version negotiation, x-fapi-interaction-id tracing, CDR error envelope
+- [Error catalog](errors/bcu-bank-problem-types.yml): CDR urn:au-cds:error:* codes mapped to 400/404/406/422
+- [Conformance](conformance/bcu-bank-conformance.yml): CDR Banking, OAuth2, OIDC, FAPI, PKCE, MTLS
+- [Lifecycle](lifecycle/bcu-bank-lifecycle.yml): per-endpoint header versioning + DSB Future Dated Obligations deprecation
+- [Data model](data-model/bcu-bank-data-model.yml): Product/Account/Balance/Transaction/DirectDebit/ScheduledPayment/InstalmentPlan/Payee
+- [MCP (candidate)](mcp/bcu-bank-mcp.yml): 19 candidate tools derived from the OpenAPI
+- [Agentic access](agentic-access/bcu-bank-agentic-access.yml): recommended x-agentic-access contracts
+- [Domain security](security/bcu-bank-domain-security.yml): TLS/HSTS/CAA/SPF/DMARC probes
+- [Vulnerability disclosure](security/bcu-bank-vulnerability-disclosure.yml): security.txt contact
+- [Well-known index](well-known/bcu-bank-well-known.yml)
+
+## Docs
+
+- [Consumer Data Right policy](https://www.bcu.com.au/consumer-data-right-policy)
+- [DSB Consumer Data Standards - CDR Banking API](https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api)
+- [About BCU](https://www.bcu.com.au/about/)
+- [Help centre](https://www.bcu.com.au/help-centre/)

@@ -1,0 +1,50 @@
+generated: '2026-07-20'
+method: searched
+source: openapi/bcu-bank-cds-banking-products-openapi.yml (per-operation x-scopes)
+docs: https://consumerdatastandardsaustralia.github.io/standards/#authorisation-scopes
+notes: >-
+  The CDS Banking OpenAPI declares no components.securitySchemes, so the OAuth
+  scope surface is derived from the per-operation x-scopes extension in the spec
+  and enriched from the DSB Consumer Data Standards authorisation-scopes
+  reference. These are the standardised CDR banking data-cluster scopes granted
+  through the CDR consent flow to Accredited Data Recipients. The Product
+  Reference Data endpoints (listBankingProducts, getBankingProductDetail) are
+  public and require no scope.
+schemes:
+- name: OAuth2 (CDR authorization-code + PKCE, FAPI 1.0 Advanced)
+  source: DSB Consumer Data Standards Security Profile
+  flows:
+  - flow: authorizationCode
+scopes:
+- scope: bank:accounts.basic:read
+  description: Read basic account information (account list, product category, masked account number, balances).
+  operations:
+  - listBankingAccounts
+  - listBankingBalancesBulk
+  - listBankingBalancesSpecificAccounts
+  - getBankingBalance
+- scope: bank:accounts.detail:read
+  description: Read detailed account information including features, fees, terms and account-holder details.
+  operations:
+  - getBankingAccountDetail
+- scope: bank:transactions:read
+  description: Read account transactions and transaction detail.
+  operations:
+  - listBankingTransactions
+  - getBankingTransactionDetail
+- scope: bank:regular_payments:read
+  description: Read regular payments - direct debits, scheduled payments and instalment plans.
+  operations:
+  - listDirectDebits
+  - listDirectDebitsBulk
+  - listDirectDebitsSpecificAccounts
+  - listScheduledPayments
+  - listScheduledPaymentsBulk
+  - listScheduledPaymentsSpecificAccounts
+  - listInstalmentPlans
+  - listInstalmentPlansBulk
+- scope: bank:payees:read
+  description: Read saved payees.
+  operations:
+  - listBankingPayees
+  - getBankingPayeeDetail

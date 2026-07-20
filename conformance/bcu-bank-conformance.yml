@@ -1,0 +1,48 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/bcu-bank-cds-banking-products-openapi.yml + DSB Consumer Data Standards
+docs: https://consumerdatastandardsaustralia.github.io/standards/
+standards:
+- id: cdr-banking
+  conforms: true
+  evidence: >-
+    Spec is the DSB Consumer Data Standards CDR Banking API (title "CDR Banking
+    API", version 1.36.0, contact Data Standards Body). BCU is a registered CDR
+    Data Holder ADR serving live PRD at public.cdr-api.bcu.com.au.
+- id: oauth2
+  conforms: true
+  evidence: CDR authorisation-code grant; per-operation x-scopes (bank:*:read data clusters).
+- id: oidc
+  conforms: true
+  evidence: OpenID Connect identity/consent layer required by the CDR security profile.
+- id: fapi
+  conforms: true
+  evidence: >-
+    FAPI 1.0 Advanced - x-fapi-interaction-id / x-fapi-auth-date /
+    x-fapi-customer-ip-address headers on every resource operation; MTLS server.
+- id: pkce
+  conforms: true
+  evidence: PKCE (S256) mandated by the CDR/FAPI authorisation-code profile.
+- id: mutual-tls
+  conforms: true
+  evidence: Sole declared server is labelled "MTLS"; FAPI-grade client + transport MTLS.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors use the CDR ResponseErrorListV2 envelope ({errors:[{code,title,detail,meta}]})
+    with application/json, not application/problem+json per RFC 9457.
+- id: cdr-error-codes
+  conforms: true
+  evidence: Error codes follow the CDR urn:au-cds:error:* registry via the ErrorV2 code/meta.urn model.
+- id: pagination
+  conforms: true
+  evidence: Standard CDS page / page-size query params with meta.totalRecords / totalPages and RFC 5988-style links.
+- id: version-negotiation
+  conforms: true
+  evidence: CDS x-v / x-min-v request headers and x-v response header per endpoint (406 on unsupported version).
+- id: json-api
+  conforms: false
+  evidence: Uses the CDR data/links/meta envelope, not the JSON:API media type.
+- id: idempotency
+  conforms: false
+  evidence: Read-only (GET-only) API; no state-changing operations, so no idempotency contract.

@@ -1,0 +1,20 @@
+generated: '2026-07-20'
+method: generated
+source: openapi/bcu-bank-cds-banking-products-openapi.yml
+skills:
+- file: bcu-bank-lookup-products.md
+  name: Look up BCU banking products (public)
+  api: openapi/bcu-bank-cds-banking-products-openapi.yml
+  operations:
+  - listBankingProducts
+  - getBankingProductDetail
+- file: bcu-bank-retrieve-accounts-and-transactions.md
+  name: Retrieve consented accounts, balances and transactions
+  api: openapi/bcu-bank-cds-banking-products-openapi.yml
+  operations:
+  - listBankingAccounts
+  - getBankingAccountDetail
+  - listBankingBalancesBulk
+  - getBankingBalance
+  - listBankingTransactions
+  - getBankingTransactionDetail

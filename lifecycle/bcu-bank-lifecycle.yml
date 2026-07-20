@@ -1,0 +1,38 @@
+generated: '2026-07-20'
+method: searched
+source: openapi/bcu-bank-cds-banking-products-openapi.yml + DSB Consumer Data Standards lifecycle/versioning
+docs: https://consumerdatastandardsaustralia.github.io/standards/#versioning
+spec_version: 1.36.0
+versioning:
+  scheme: header-endpoint-version
+  detail: >-
+    CDS versions each endpoint independently via the x-v request header
+    (client-requested version), x-min-v (minimum acceptable version), and the
+    x-v response header (version served). The overall CDR Banking API standard is
+    versioned semantically (this spec is 1.36.0). BCU serves versioned PRD live
+    (observed x-v up to 5 on /banking/products).
+  request_headers:
+  - x-v
+  - x-min-v
+  response_headers:
+  - x-v
+  unsupported_version_status: 406
+deprecation:
+  policy: true
+  policy_url: https://consumerdatastandardsaustralia.github.io/standards/#versioning
+  mechanism: >-
+    Endpoint versions are retired through the DSB Future Dated Obligations (FDO)
+    process; obsolete endpoint versions are documented in-spec. Individual
+    operations reference their obsolete prior versions (e.g. Get Accounts links
+    to obsolete v1/v2), so consumers can migrate ahead of retirement.
+  obsolete_versions_noted_in_spec: true
+sla:
+  note: >-
+    CDR Data Holders are bound by the DSB Consumer Data Standards non-functional
+    requirements (availability and performance obligations) rather than a
+    BCU-published SLA document.
+  reference: https://consumerdatastandardsaustralia.github.io/standards/#non-functional-requirements
+status_page:
+  found: false
+  note: No BCU-branded API status page was located; CDR performance/availability is reported via the ACCC/DSB CDR ecosystem, not a BCU status page.
+deprecated_operations: []

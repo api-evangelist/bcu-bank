@@ -1,0 +1,81 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/bcu-bank-cds-banking-products-openapi.yml ($ref graph + accountId reference fields)
+docs: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api
+entities:
+- name: BankingProduct
+  key: productId
+  public: true
+  operations:
+  - listBankingProducts
+  - getBankingProductDetail
+  note: Publicly readable product catalogue (accounts, lending, cards) with fees/rates/eligibility.
+- name: BankingAccount
+  key: accountId
+  operations:
+  - listBankingAccounts
+  - getBankingAccountDetail
+- name: BankingBalance
+  key: accountId
+  operations:
+  - listBankingBalancesBulk
+  - listBankingBalancesSpecificAccounts
+  - getBankingBalance
+- name: BankingTransaction
+  key: transactionId
+  operations:
+  - listBankingTransactions
+  - getBankingTransactionDetail
+- name: BankingDirectDebit
+  operations:
+  - listDirectDebits
+  - listDirectDebitsBulk
+  - listDirectDebitsSpecificAccounts
+- name: BankingScheduledPayment
+  key: scheduledPaymentId
+  operations:
+  - listScheduledPayments
+  - listScheduledPaymentsBulk
+  - listScheduledPaymentsSpecificAccounts
+- name: BankingInstalmentPlan
+  operations:
+  - listInstalmentPlans
+  - listInstalmentPlansBulk
+- name: BankingPayee
+  key: payeeId
+  operations:
+  - listBankingPayees
+  - getBankingPayeeDetail
+relationships:
+- from: BankingAccount
+  to: BankingProduct
+  kind: belongs_to
+  via: productCategory
+- from: BankingBalance
+  to: BankingAccount
+  kind: belongs_to
+  via: accountId
+- from: BankingAccount
+  to: BankingTransaction
+  kind: has_many
+  via: accountId
+- from: BankingTransaction
+  to: BankingAccount
+  kind: belongs_to
+  via: accountId
+- from: BankingAccount
+  to: BankingDirectDebit
+  kind: has_many
+  via: accountId
+- from: BankingAccount
+  to: BankingScheduledPayment
+  kind: has_many
+  via: from.accountId
+- from: BankingScheduledPayment
+  to: BankingPayee
+  kind: has_many
+  via: paymentSet.to.payeeId
+- from: BankingAccount
+  to: BankingInstalmentPlan
+  kind: has_many
+  via: accountId

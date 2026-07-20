@@ -23,7 +23,7 @@ tags:
 - Mutual Bank
 - Australia
 created: '2026-07-20'
-modified: '2026-07-20'
+modified: '2026-07-21'
 specificationVersion: '0.19'
 apis:
 - aid: bcu-bank:bcu-bank-cdr-product-reference-data-api
@@ -77,6 +77,44 @@ apis:
     CDR Data Holder obligations; the underlying contract is the shared CDS Banking
     OpenAPI, not a BCU-proprietary spec.
 common:
+- type: VulnerabilityDisclosure
+  url: security/bcu-bank-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/bcu-bank-domain-security.yml
+- type: AgenticAccess
+  url: agentic-access/bcu-bank-agentic-access.yml
+- type: Security
+  url: well-known/bcu-bank-security.txt
+- type: SecurityTxt
+  url: well-known/bcu-bank-security.txt
+- type: WellKnown
+  url: well-known/bcu-bank-well-known.yml
+- type: Authentication
+  url: authentication/bcu-bank-authentication.yml
+- type: OAuthScopes
+  url: scopes/bcu-bank-scopes.yml
+- type: Conventions
+  url: conventions/bcu-bank-conventions.yml
+- type: ErrorCatalog
+  url: errors/bcu-bank-problem-types.yml
+- type: Conformance
+  url: conformance/bcu-bank-conformance.yml
+- type: Lifecycle
+  url: lifecycle/bcu-bank-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/bcu-bank-lifecycle.yml
+- type: DataModel
+  url: data-model/bcu-bank-data-model.yml
+- type: MCPServer
+  url: mcp/bcu-bank-mcp.yml
+- type: Overlay
+  url: overlays/bcu-bank-cds-banking-products-overlay.yaml
+- type: LLMsTxt
+  url: llms/bcu-bank-llms.txt
+- type: AgentSkill
+  url: skills/bcu-bank-lookup-products.md
+- type: AgentSkill
+  url: skills/bcu-bank-retrieve-accounts-and-transactions.md
 - type: Website
   url: https://www.bcu.com.au/
 - type: About

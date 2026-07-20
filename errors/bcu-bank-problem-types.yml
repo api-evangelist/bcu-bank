@@ -1,0 +1,60 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/bcu-bank-cds-banking-products-openapi.yml (4xx responses) + DSB Consumer Data Standards error-code registry
+docs: https://consumerdatastandardsaustralia.github.io/standards/#error-codes
+format: cdr-error-list
+envelope:
+  media_type: application/json
+  schema: ResponseErrorListV2
+  shape: '{ "errors": [ { "code": "urn:au-cds:error:...", "title": "...", "detail": "...", "meta": { "urn": "..." } } ] }'
+  note: >-
+    CDR error envelope (not RFC 9457 problem+json). code is a CDR error-code URN
+    (or an application-specific code whose base URN is in meta.urn); title is
+    stable per code; detail is occurrence-specific.
+http_statuses:
+- status: 400
+  meaning: Bad Request - malformed/invalid field, missing or invalid header.
+  observed_on_operations: all 19 operations
+- status: 404
+  meaning: Not Found - unknown or unauthorised resource id (account, transaction, payee).
+  observed_on_operations: detail/by-id operations (getBankingBalance, getBankingAccountDetail, getBankingTransactionDetail, getBankingPayeeDetail, and per-account list operations)
+- status: 406
+  meaning: Not Acceptable - requested/negotiated API version (x-v / x-min-v) is not supported.
+  observed_on_operations: all 19 operations
+- status: 422
+  meaning: Unprocessable Entity - semantically invalid request (e.g. invalid page / page-size, invalid filter combination).
+  observed_on_operations: list operations with paging/filter parameters
+problems:
+- code: urn:au-cds:error:cds-all:Field/Missing
+  status: 400
+  title: Missing Required Field
+- code: urn:au-cds:error:cds-all:Field/Invalid
+  status: 400
+  title: Invalid Field
+- code: urn:au-cds:error:cds-all:Header/Missing
+  status: 400
+  title: Missing Required Header
+- code: urn:au-cds:error:cds-all:Header/Invalid
+  status: 400
+  title: Invalid Header
+- code: urn:au-cds:error:cds-all:Header/InvalidVersion
+  status: 406
+  title: Invalid Version
+- code: urn:au-cds:error:cds-all:Header/UnsupportedVersion
+  status: 406
+  title: Unsupported Version
+- code: urn:au-cds:error:cds-all:Field/InvalidPage
+  status: 422
+  title: Invalid Page
+- code: urn:au-cds:error:cds-all:Field/InvalidPageSize
+  status: 422
+  title: Invalid Page Size
+- code: urn:au-cds:error:cds-all:Resource/NotFound
+  status: 404
+  title: Resource Not Found
+- code: urn:au-cds:error:cds-all:Resource/Invalid
+  status: 404
+  title: Invalid Resource
+- code: urn:au-cds:error:cds-banking:Authorisation/UnavailableBankingAccount
+  status: 404
+  title: Unavailable Banking Account

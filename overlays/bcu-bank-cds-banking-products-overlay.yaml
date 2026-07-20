@@ -1,0 +1,29 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for BCU Bank CDR Banking API
+  version: 1.0.0
+extends: openapi/bcu-bank-cds-banking-products-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: bcu-bank
+    x-apievangelist-cdr-data-holder: true
+    x-apievangelist-brand: BCU
+    x-apievangelist-live-prd: https://public.cdr-api.bcu.com.au/cds-au/v1/banking/products
+    x-apievangelist-standard: DSB Consumer Data Standards - CDR Banking API
+    x-apievangelist-security-profile: FAPI 1.0 Advanced
+- target: $.servers
+  update:
+  - description: BCU public CDR Product Reference Data (live, unauthenticated)
+    url: https://public.cdr-api.bcu.com.au/cds-au/v1
+    x-apievangelist-note: Only the /banking/products endpoints are served publicly at this host.
+- target: $.info
+  update:
+    x-apievangelist-artifacts:
+      authentication: authentication/bcu-bank-authentication.yml
+      scopes: scopes/bcu-bank-scopes.yml
+      conventions: conventions/bcu-bank-conventions.yml
+      errors: errors/bcu-bank-problem-types.yml
+      conformance: conformance/bcu-bank-conformance.yml
+      lifecycle: lifecycle/bcu-bank-lifecycle.yml
+      data_model: data-model/bcu-bank-data-model.yml
