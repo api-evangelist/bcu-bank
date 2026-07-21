@@ -35,47 +35,124 @@ apis:
   - Banking Products
   - Public API
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.bcu.com.au/consumer-data-right-policy
-  baseURL: https://public.cdr-api.bcu.com.au/cds-au/v1
+  humanURL: https://www.bcu.com.au/help-centre/open-banking/bcu-bank-products-api/
+  baseURL: https://public.cdr-api.bcu.com.au/cds-au/v1/banking/products
   properties:
-  - url: https://www.bcu.com.au/consumer-data-right-policy
+  - url: https://www.bcu.com.au/help-centre/open-banking/bcu-bank-products-api/
     type: Documentation
   - url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-products
     type: APIReference
   - url: openapi/bcu-bank-cds-banking-products-openapi.yml
     type: OpenAPI
   description: Public, unauthenticated Consumer Data Right Product Reference Data (PRD)
-    API conforming to the DSB Consumer Data Standards. GET /banking/products (and
-    /banking/products/{productId}) returns BCU's openly available banking products
+    API conforming to the DSB Consumer Data Standards. GET /banking/products and
+    /banking/products/{productId} return BCU's openly available banking products
     - transaction and savings accounts, residential mortgages, personal loans and
     cards - with fees, rates and eligibility. Confirmed live at
-    https://public.cdr-api.bcu.com.au/cds-au/v1/banking/products (HTTP 200, x-v up
-    to 5, 76 products, brand "BCU").
-- aid: bcu-bank:bcu-bank-cdr-consumer-data-sharing-api
-  name: BCU Bank CDR Consumer Data Sharing API
+    https://public.cdr-api.bcu.com.au/cds-au/v1/banking/products (HTTP 200 with the
+    x-v version header set to 4; live brand "BCU" products returned 2026-07-21). No
+    authentication required.
+- aid: bcu-bank:bcu-bank-cdr-accounts-and-balances-api
+  name: BCU Bank CDR Accounts & Balances API
   tags:
   - CDR
   - Open Banking
-  - Consumer Data Sharing
-  - OIDC
-  - FAPI
+  - Accounts
+  - Balances
+  - Consumer Authorized
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.bcu.com.au/consumer-data-right-policy
-  baseURL: https://public.cdr-api.bcu.com.au/cds-au/v1
+  humanURL: https://www.bcu.com.au/consumer-data-right-policy/
+  baseURL: https://public.cdr-api.bcu.com.au/cds-au/v1/banking/accounts
   properties:
-  - url: https://www.bcu.com.au/consumer-data-right-policy
+  - url: https://www.bcu.com.au/consumer-data-right-policy/
     type: Documentation
-  - url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-accounts
     type: APIReference
   - url: openapi/bcu-bank-cds-banking-products-openapi.yml
     type: OpenAPI
-  description: Authenticated Consumer Data Right banking data-sharing surface (accounts,
-    balances, transactions, direct debits, payees and payment scheduling) defined by
-    the DSB Consumer Data Standards. Not public - access is restricted to CDR
+  description: Consumer-authorized Consumer Data Right banking surface for account
+    lists and balances, defined by the DSB Consumer Data Standards - Get Accounts,
+    Get Bulk Balances, Get Account Balance and Get Account Detail. Not public; access
+    is restricted to CDR Accredited Data Recipients acting on explicit member consent
+    via the CDR OAuth2/OIDC FAPI authorization and consent flow. The contract is the
+    shared DSB CDS Banking OpenAPI (v1.36.0), not a BCU-proprietary spec; BCU
+    implements it as a legally obligated CDR Data Holder.
+- aid: bcu-bank:bcu-bank-cdr-transactions-api
+  name: BCU Bank CDR Transactions API
+  tags:
+  - CDR
+  - Open Banking
+  - Transactions
+  - Account Data
+  - Consumer Authorized
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.bcu.com.au/consumer-data-right-policy/
+  baseURL: https://public.cdr-api.bcu.com.au/cds-au/v1/banking/accounts
+  properties:
+  - url: https://www.bcu.com.au/consumer-data-right-policy/
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-transactions-for-account
+    type: APIReference
+  - url: openapi/bcu-bank-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Consumer-authorized Consumer Data Right banking surface for account
+    transactions, defined by the DSB Consumer Data Standards - Get Transactions For
+    Account and Get Transaction Detail, with date, amount and text filtering. Not
+    public; access is restricted to CDR Accredited Data Recipients acting on explicit
+    member consent via the CDR OAuth2/OIDC FAPI authorization and consent flow. The
+    contract is the shared DSB CDS Banking OpenAPI (v1.36.0), not a BCU-proprietary
+    spec; BCU implements it as a legally obligated CDR Data Holder.
+- aid: bcu-bank:bcu-bank-cdr-direct-debits-and-scheduled-payments-api
+  name: BCU Bank CDR Direct Debits & Scheduled Payments API
+  tags:
+  - CDR
+  - Open Banking
+  - Direct Debits
+  - Scheduled Payments
+  - Consumer Authorized
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.bcu.com.au/consumer-data-right-policy/
+  baseURL: https://public.cdr-api.bcu.com.au/cds-au/v1/banking/accounts/direct-debits
+  properties:
+  - url: https://www.bcu.com.au/consumer-data-right-policy/
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-direct-debits-for-account
+    type: APIReference
+  - url: openapi/bcu-bank-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Consumer-authorized Consumer Data Right banking surface for direct
+    debits and scheduled payments, defined by the DSB Consumer Data Standards - Get
+    Direct Debits For Account, Get Bulk Direct Debits, Get Scheduled Payments For
+    Account and Get Bulk Scheduled Payments. Not public; access is restricted to CDR
     Accredited Data Recipients acting on explicit member consent via the CDR
-    OAuth2/OIDC FAPI authorization and consent flow. Listed for completeness of BCU's
-    CDR Data Holder obligations; the underlying contract is the shared CDS Banking
-    OpenAPI, not a BCU-proprietary spec.
+    OAuth2/OIDC FAPI authorization and consent flow. The contract is the shared DSB
+    CDS Banking OpenAPI (v1.36.0), not a BCU-proprietary spec; BCU implements it as a
+    legally obligated CDR Data Holder.
+- aid: bcu-bank:bcu-bank-cdr-payees-api
+  name: BCU Bank CDR Payees API
+  tags:
+  - CDR
+  - Open Banking
+  - Payees
+  - Account Data
+  - Consumer Authorized
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.bcu.com.au/consumer-data-right-policy/
+  baseURL: https://public.cdr-api.bcu.com.au/cds-au/v1/banking/payees
+  properties:
+  - url: https://www.bcu.com.au/consumer-data-right-policy/
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-payees
+    type: APIReference
+  - url: openapi/bcu-bank-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Consumer-authorized Consumer Data Right banking surface for saved
+    payees, defined by the DSB Consumer Data Standards - Get Payees and Get Payee
+    Detail, covering domestic, biller and international payee records. Not public;
+    access is restricted to CDR Accredited Data Recipients acting on explicit member
+    consent via the CDR OAuth2/OIDC FAPI authorization and consent flow. The contract
+    is the shared DSB CDS Banking OpenAPI (v1.36.0), not a BCU-proprietary spec; BCU
+    implements it as a legally obligated CDR Data Holder.
 common:
 - type: VulnerabilityDisclosure
   url: security/bcu-bank-vulnerability-disclosure.yml
@@ -120,7 +197,9 @@ common:
 - type: About
   url: https://www.bcu.com.au/about/
 - type: Documentation
-  url: https://www.bcu.com.au/consumer-data-right-policy
+  url: https://www.bcu.com.au/help-centre/open-banking/bcu-bank-products-api/
+- type: APIReference
+  url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api
 - type: LinkedIn
   url: https://www.linkedin.com/company/bcu
 - type: Blog
