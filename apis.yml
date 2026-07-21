@@ -176,6 +176,8 @@ common:
   url: errors/bcu-bank-problem-types.yml
 - type: Conformance
   url: conformance/bcu-bank-conformance.yml
+- type: Compliance
+  url: https://www.bcu.com.au/consumer-data-right-policy/
 - type: Lifecycle
   url: lifecycle/bcu-bank-lifecycle.yml
 - type: Deprecation
