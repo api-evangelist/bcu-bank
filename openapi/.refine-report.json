@@ -1,0 +1,26 @@
+{
+  "provider": "bcu-bank",
+  "sources": [
+    "bcu-bank-banking-account-balances-api-openapi.yml",
+    "bcu-bank-banking-account-direct-debits-api-openapi.yml",
+    "bcu-bank-banking-account-scheduled-payments-api-openapi.yml",
+    "bcu-bank-banking-account-transactions-api-openapi.yml",
+    "bcu-bank-banking-accounts-api-openapi.yml",
+    "bcu-bank-banking-payees-api-openapi.yml",
+    "bcu-bank-banking-products-api-openapi.yml"
+  ],
+  "outputs": [
+    "bcu-bank-banking-account-balances-api-openapi.yml",
+    "bcu-bank-banking-account-direct-debits-api-openapi.yml",
+    "bcu-bank-banking-account-scheduled-payments-api-openapi.yml",
+    "bcu-bank-banking-account-transactions-api-openapi.yml",
+    "bcu-bank-banking-accounts-api-openapi.yml",
+    "bcu-bank-banking-payees-api-openapi.yml",
+    "bcu-bank-banking-products-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
