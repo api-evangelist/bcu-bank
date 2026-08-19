@@ -2,12 +2,10 @@ generated: '2026-07-20'
 method: derived
 status: candidate
 source: openapi/bcu-bank-cds-banking-products-openapi.yml
-note: >-
-  No official BCU-hosted MCP server was found. This is a candidate tool list
-  derived one-to-one from the CDS Banking OpenAPI operations. The Product tools
-  work against the public PRD endpoint; the account/transaction/payment tools
-  require a CDR consent-scoped access token (see scopes/bcu-bank-scopes.yml) and
-  MTLS, so they are only usable by an Accredited Data Recipient.
+note: No official BCU-hosted MCP server was found. This is a candidate tool list derived one-to-one from
+  the CDS Banking OpenAPI operations. The Product tools work against the public PRD endpoint; the account/transaction/payment
+  tools require a CDR consent-scoped access token (see scopes/bcu-bank-scopes.yml) and MTLS, so they are
+  only usable by an Accredited Data Recipient.
 server:
   name: bcu-bank
   transport: http
@@ -69,3 +67,9 @@ tools:
 - name: get_banking_payee_detail
   description: Get detail for a single payee.
   source_operation: openapi/bcu-bank-cds-banking-products-openapi.yml#getBankingPayeeDetail
+deployment:
+  mode: none
+  verified: derived
+  tools: 19
+  checked: '2026-08-12'
+  source: catalog MCP census
