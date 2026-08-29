@@ -233,6 +233,9 @@ apis:
   - type: APIReference
     url: https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-payees
 common:
+- type: CapabilityMap
+  url: capabilities/bcu-bank-capability-edges.yml
+  name: BCU Bank Business Capability Map
 - type: VulnerabilityDisclosure
   url: security/bcu-bank-vulnerability-disclosure.yml
 - type: DomainSecurity
