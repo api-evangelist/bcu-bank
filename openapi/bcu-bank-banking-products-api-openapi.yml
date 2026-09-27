@@ -100,243 +100,61 @@ paths:
       x-version: '7'
 components:
   schemas:
-    BankingProductConstraintV3:
+    ResponseErrorListV2:
+      type: object
       required:
-      - constraintType
-      type: object
+      - errors
       properties:
-        constraintType:
-          type: string
-          description: The type of constraint described. For further details, refer to [Product Constraint Types](#tocSproductconstrainttypedoc).
-          enum:
-          - MAX_BALANCE
-          - MAX_LIMIT
-          - MAX_LVR
-          - MIN_BALANCE
-          - MIN_LIMIT
-          - MIN_LVR
-          - OPENING_BALANCE
-          - OTHER
-        additionalValue:
-          type: string
-          description: Generic field containing additional information relevant to the [_constraintType_](#tocSproductconstrainttypedoc) specified. Whether mandatory or not is dependent on the value of [_constraintType_](#tocSproductconstrainttypedoc).
-        additionalInfo:
-          type: string
-          description: Display text providing more information on the constraint. Mandatory if the [_constraintType_](#tocSproductconstrainttypedoc) value is `OTHER`.
-        additionalInfoUri:
-          type: string
-          description: Link to a web page with more information on the constraint.
-          x-cds-type: URIString
-      x-conditional:
-      - additionalValue
-      - additionalInfo
-    BankingProductDetailV7:
-      allOf:
-      - $ref: '#/components/schemas/BankingProductV6'
-      - type: object
-        properties:
-          bundles:
-            type: array
-            description: An array of bundles that this product participates in. Each bundle is described by free form information but also by a list of _productID_ values of the other products that are included in the bundle. It is assumed that the current product is included in the bundle also.
-            items:
-              $ref: '#/components/schemas/BankingProductBundle'
-          features:
-            type: array
-            description: Array of features and limitations of the product.
-            items:
-              $ref: '#/components/schemas/BankingProductFeatureV4'
-          constraints:
-            type: array
-            description: Constraints on the application for the product such as minimum balances or limit thresholds.
-            items:
-              $ref: '#/components/schemas/BankingProductConstraintV3'
-          eligibility:
-            type: array
-            description: Eligibility criteria for the product.
-            items:
-              $ref: '#/components/schemas/BankingProductEligibilityV2'
-          fees:
-            type: array
-            description: Fees applicable to the product.
-            items:
-              $ref: '#/components/schemas/BankingProductFeeV2'
-          depositRates:
-            type: array
-            description: Interest rates available for deposits.
-            items:
-              $ref: '#/components/schemas/BankingProductDepositRateV2'
-          lendingRates:
-            type: array
-            description: Interest rates charged against lending balances.
-            items:
-              $ref: '#/components/schemas/BankingProductLendingRateV3'
-          instalments:
-            $ref: '#/components/schemas/BankingProductInstalments'
-    Meta:
-      type: object
-    ResponseBankingProductListV4:
-      required:
-      - data
-      - links
-      - meta
-      type: object
-      properties:
-        data:
-          required:
-          - products
-          type: object
-          properties:
-            products:
-              type: array
-              description: The list of products returned. If the filter results in an empty set then this array may have no records.
-              items:
-                $ref: '#/components/schemas/BankingProductV6'
-        links:
-          $ref: '#/components/schemas/LinksPaginated'
-        meta:
-          $ref: '#/components/schemas/MetaPaginated'
-    BankingProductBundle:
-      required:
-      - description
-      - name
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the bundle.
-        description:
-          type: string
-          description: Description of the bundle.
-        additionalInfo:
-          type: string
-          description: Display text providing more information on the bundle.
-        additionalInfoUri:
-          type: string
-          description: Link to a web page with more information on the bundle criteria and benefits.
-          x-cds-type: URIString
-        productIds:
+        errors:
+          description: List of errors.
           type: array
-          description: Array of _productID_ values for products included in the bundle that are available via the product endpoints. Note that this array is not intended to represent a comprehensive model of the products included in the bundle and some products available for the bundle may not be available via the product reference endpoints.
           items:
-            $ref: '#/components/schemas/BankingProductId'
-    BankingProductV6:
-      required:
-      - brand
-      - description
-      - isTailored
-      - lastUpdated
-      - name
-      - productCategory
-      - productId
+            $ref: '#/components/schemas/ErrorV2'
+    BankingFeeRange:
       type: object
+      description: A minimum or maximum fee amount where a specific fixed amount is not known until the fee is incurred.
       properties:
-        productId:
-          $ref: '#/components/schemas/BankingProductId'
-        effectiveFrom:
+        feeMinimum:
           type: string
-          description: The date and time from which this product is effective (i.e. is available for origination). Used to enable the articulation of products to the regime before they are available for customers to originate.
-          x-cds-type: DateTimeString
-        effectiveTo:
-          type: string
-          description: The date and time at which this product will be retired and will no longer be offered. Used to enable the managed deprecation of products.
-          x-cds-type: DateTimeString
-        lastUpdated:
-          type: string
-          description: The last date and time that the information for this product was changed (or the creation date for the product if it has never been altered).
-          x-cds-type: DateTimeString
-        productCategory:
-          $ref: '#/components/schemas/BankingProductCategoryV2'
-        name:
-          type: string
-          description: The display name of the product.
-        description:
-          type: string
-          description: A description of the product.
-        brand:
-          type: string
-          description: A label of the brand for the product. Able to be used for filtering. For data holders with single brands this value is still required.
-        brandName:
-          type: string
-          description: An optional display name of the brand.
-        brandGroup:
-          type: string
-          x-cds-type: ASCIIString
-          description: The *brandGroup* of a consumer data sharing brand that the product is associated with.
-        applicationUri:
-          type: string
-          description: A link to an application web page where this product can be applied for.
-          x-cds-type: URIString
-        isTailored:
-          type: boolean
-          description: Indicates whether the product is specifically tailored to a circumstance. In this case fees and prices are significantly negotiated depending on context. While all products are open to a degree of tailoring this flag indicates that tailoring is expected and thus that the provision of specific fees and rates is not applicable.
-        additionalInformation:
-          $ref: '#/components/schemas/BankingProductAdditionalInformationV2'
-        cardArt:
-          type: array
-          description: Information about any cards available with the account.
-          items:
-            $ref: '#/components/schemas/BankingProductCardArt'
-    LinksPaginated:
-      required:
-      - self
-      type: object
-      properties:
-        self:
-          type: string
-          description: Fully qualified link that generated the current response document.
-          x-cds-type: URIString
-        first:
-          type: string
-          description: URI to the first page of this set. Mandatory if this response is not the first page.
-          x-cds-type: URIString
-        prev:
-          type: string
-          description: URI to the previous page of this set. Mandatory if this response is not the first page.
-          x-cds-type: URIString
-        next:
-          type: string
-          description: URI to the next page of this set. Mandatory if this response is not the last page.
-          x-cds-type: URIString
-        last:
-          type: string
-          description: URI to the last page of this set. Mandatory if this response is not the last page.
-          x-cds-type: URIString
-      x-conditional:
-      - prev
-      - next
-      - first
-      - last
-    BankingFeeAmount:
-      type: object
-      required:
-      - amount
-      properties:
-        amount:
-          type: string
-          description: The specific amount charged for the fee each time it is incurred.
+          description: The minimum fee that will be charged per occurrence.
           x-cds-type: AmountString
-    BankingProductDepositRateV2:
+        feeMaximum:
+          type: string
+          description: The maximum fee that will be charged per occurrence.
+          x-cds-type: AmountString
+    BankingProductLendingRateV3:
       required:
-      - depositRateType
+      - lendingRateType
       - rate
       - applicationType
+      - repaymentType
+      - loanPurpose
       type: object
       properties:
-        depositRateType:
+        lendingRateType:
           type: string
-          description: The type of rate (`FIXED`, `VARIABLE`, `BONUS`, etc.) For further details, refer to [Product Deposit Rate Types](#tocSproductdepositratetypedoc).
+          description: The type of rate (`FIXED`, `VARIABLE`, etc.) For further details, refer to [Product Lending Rate Types](#tocSproductlendingratetypedoc).
           enum:
-          - BONUS
-          - BUNDLE_BONUS
+          - BALANCE_TRANSFER
+          - BUNDLE_DISCOUNT_FIXED
+          - BUNDLE_DISCOUNT_VARIABLE
+          - CASH_ADVANCE
+          - DISCOUNT
           - FIXED
           - FLOATING
           - INTRODUCTORY
           - MARKET_LINKED
+          - PENALTY
+          - PURCHASE
           - VARIABLE
-          example: VARIABLE
+          example: FIXED
         rate:
           type: string
           description: The rate to be applied.
+          x-cds-type: RateString
+        comparisonRate:
+          type: string
+          description: A comparison rate equivalent for this rate.
           x-cds-type: RateString
         calculationFrequency:
           type: string
@@ -354,6 +172,28 @@ components:
           type: string
           description: The period after which the calculated amount(s) (see _calculationFrequency_) are 'applied' (i.e. debited or credited) to the account. Formatted according to [ISO 8601 Durations](https://en.wikipedia.org/wiki/ISO_8601#Durations) (excludes recurrence syntax). Mandatory if the _applicationType_ value is `PERIODIC`.
           x-cds-type: ExternalRef
+        interestPaymentDue:
+          type: string
+          description: When loan payments are due to be paid within each period. The investment benefit of earlier payments affect the rate that can be offered.
+          enum:
+          - IN_ADVANCE
+          - IN_ARREARS
+        repaymentType:
+          type: string
+          description: Option in place for repayments.
+          enum:
+          - INTEREST_ONLY
+          - OTHER
+          - PRINCIPAL_AND_INTEREST
+          - UNCONSTRAINED
+        loanPurpose:
+          type: string
+          description: The reason for taking out the loan.
+          enum:
+          - INVESTMENT
+          - OTHER
+          - OWNER_OCCUPIED
+          - UNCONSTRAINED
         tiers:
           type: array
           description: Qualifying criteria or conditions relevant to the associated rate.
@@ -366,7 +206,7 @@ components:
             $ref: '#/components/schemas/BankingProductRateConditionV2'
         additionalValue:
           type: string
-          description: Generic field containing additional information relevant to the [_depositRateType_](#tocSproductdepositratetypedoc) specified. Whether mandatory or not is dependent on the value of [_depositRateType_](#tocSproductdepositratetypedoc).
+          description: Generic field containing additional information relevant to the [_lendingRateType_](#tocSproductlendingratetypedoc) specified. Whether mandatory or not is dependent on the value of [_lendingRateType_](#tocSproductlendingratetypedoc).
         additionalInfo:
           type: string
           description: Display text providing more information on the rate.
@@ -430,110 +270,6 @@ components:
       x-conditional:
       - additionalValue
       - additionalInfo
-    BankingFeeDiscountRate:
-      type: object
-      required:
-      - rateType
-      - rate
-      properties:
-        rateType:
-          type: string
-          description: Type of fee rate discount calculation.<ul><li>`BALANCE` A fee rate discount based on a balance</li><li>`FEE` A fee rate discount based on the fee to which the discount is attached</li><li>`INTEREST_ACCRUED` A fee rate discount based on interest accrued</li><li>`TRANSACTION` A fee rate discount based on a transaction.</li></ul>
-          enum:
-          - BALANCE
-          - FEE
-          - INTEREST_ACCRUED
-          - TRANSACTION
-        rate:
-          type: string
-          x-cds-type: RateString
-          description: The fee rate discount calculated according to the _rateType_.
-        amountRange:
-          $ref: '#/components/schemas/BankingFeeDiscountRange'
-    BankingFeeRange:
-      type: object
-      description: A minimum or maximum fee amount where a specific fixed amount is not known until the fee is incurred.
-      properties:
-        feeMinimum:
-          type: string
-          description: The minimum fee that will be charged per occurrence.
-          x-cds-type: AmountString
-        feeMaximum:
-          type: string
-          description: The maximum fee that will be charged per occurrence.
-          x-cds-type: AmountString
-    BankingProductRateConditionV2:
-      type: object
-      description: Defines a condition for the applicability of a rate.
-      properties:
-        rateApplicabilityType:
-          type: string
-          description: Category of applicability condition associated with the rate. For more information refer to [Rate and Tier Applicability Types](#tocSbankingproductrateconditiondoc).
-          enum:
-          - MIN_DEPOSITS
-          - MIN_DEPOSIT_AMOUNT
-          - DEPOSIT_BALANCE_INCREASED
-          - EXISTING_CUST
-          - NEW_ACCOUNTS
-          - NEW_CUSTOMER
-          - NEW_CUSTOMER_TO_GROUP
-          - ONLINE_ONLY
-          - OTHER
-          - MIN_PURCHASES
-          - MAX_WITHDRAWALS
-          - MAX_WITHDRAWAL_AMOUNT
-          example: NEW_CUSTOMER
-        additionalValue:
-          type: string
-          description: Generic field containing additional information relevant to the _rateApplicabilityType_ specified. Whether mandatory or not is dependent on the value of [_rateApplicabilityType_](#tocSbankingproductrateconditiondoc).
-        additionalInfo:
-          type: string
-          description: Display text providing more information on the condition. Mandatory if the [_rateApplicabilityType_](#tocSbankingproductrateconditiondoc) value is `OTHER`.
-        additionalInfoUri:
-          type: string
-          description: Link to a web page with more information on this condition.
-          x-cds-type: URIString
-      required:
-      - rateApplicabilityType
-      x-conditional:
-      - additionalValue
-      - additionalInfo
-    ResponseBankingProductByIdV7:
-      required:
-      - data
-      - links
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/BankingProductDetailV7'
-        links:
-          $ref: '#/components/schemas/Links'
-        meta:
-          $ref: '#/components/schemas/Meta'
-    MetaPaginated:
-      required:
-      - totalPages
-      - totalRecords
-      type: object
-      properties:
-        totalRecords:
-          type: integer
-          description: The total number of records in the full set. See [pagination](#pagination).
-          x-cds-type: NaturalNumber
-        totalPages:
-          type: integer
-          description: The total number of pages in the full set. See [pagination](#pagination).
-          x-cds-type: NaturalNumber
-    ResponseErrorListV2:
-      type: object
-      required:
-      - errors
-      properties:
-        errors:
-          description: List of errors.
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorV2'
     BankingProductAdditionalInformationV2:
       type: object
       properties:
@@ -589,139 +325,62 @@ components:
       - eligibilityUri
       - feesAndPricingUri
       - bundleUri
-    BankingProductCardArt:
+    BankingProductDetailV7:
+      allOf:
+      - $ref: '#/components/schemas/BankingProductV6'
+      - type: object
+        properties:
+          bundles:
+            type: array
+            description: An array of bundles that this product participates in. Each bundle is described by free form information but also by a list of _productID_ values of the other products that are included in the bundle. It is assumed that the current product is included in the bundle also.
+            items:
+              $ref: '#/components/schemas/BankingProductBundle'
+          features:
+            type: array
+            description: Array of features and limitations of the product.
+            items:
+              $ref: '#/components/schemas/BankingProductFeatureV4'
+          constraints:
+            type: array
+            description: Constraints on the application for the product such as minimum balances or limit thresholds.
+            items:
+              $ref: '#/components/schemas/BankingProductConstraintV3'
+          eligibility:
+            type: array
+            description: Eligibility criteria for the product.
+            items:
+              $ref: '#/components/schemas/BankingProductEligibilityV2'
+          fees:
+            type: array
+            description: Fees applicable to the product.
+            items:
+              $ref: '#/components/schemas/BankingProductFeeV2'
+          depositRates:
+            type: array
+            description: Interest rates available for deposits.
+            items:
+              $ref: '#/components/schemas/BankingProductDepositRateV2'
+          lendingRates:
+            type: array
+            description: Interest rates charged against lending balances.
+            items:
+              $ref: '#/components/schemas/BankingProductLendingRateV3'
+          instalments:
+            $ref: '#/components/schemas/BankingProductInstalments'
+    MetaPaginated:
       required:
-      - cardScheme
-      - cardType
-      - imageUri
+      - totalPages
+      - totalRecords
       type: object
       properties:
-        cardScheme:
-          type: string
-          description: Card scheme available with the account.
-          enum:
-          - AMEX
-          - EFTPOS
-          - MASTERCARD
-          - VISA
-          - OTHER
-        cardType:
-          type: string
-          description: Card type available with the account.
-          enum:
-          - CHARGE
-          - CREDIT
-          - DEBIT
-        title:
-          type: string
-          description: Display label for the specific image.
-        imageUri:
-          type: string
-          description: URI reference to a PNG, JPG or GIF image with proportions defined by ISO 7810 ID-1 and width no greater than 512 pixels. The URI reference may be a link or url-encoded data URI according to **[[RFC2397]](#nref-RFC2397)**.
-          x-cds-type: URIString
-    BankingProductId:
-      type: string
-      description: A data holder-specific unique identifier for a Banking product. This identifier must be unique to a product but does not otherwise need to adhere to ID permanence guidelines.
-      x-cds-type: ASCIIString
-    Links:
-      required:
-      - self
-      type: object
-      properties:
-        self:
-          type: string
-          description: Fully qualified link that generated the current response document.
-          x-cds-type: URIString
-    BankingProductDiscountEligibility:
-      required:
-      - discountEligibilityType
-      type: object
-      properties:
-        discountEligibilityType:
-          type: string
-          description: The type of the specific eligibility constraint for a discount. For further details, refer to [Product Discount Eligibility Types](#tocSproductdiscounteligibilitydoc).
-          enum:
-          - BUSINESS
-          - EMPLOYMENT_STATUS
-          - INTRODUCTORY
-          - MAX_AGE
-          - MIN_AGE
-          - MIN_INCOME
-          - MIN_TURNOVER
-          - NATURAL_PERSON
-          - OTHER
-          - PENSION_RECIPIENT
-          - RESIDENCY_STATUS
-          - STAFF
-          - STUDENT
-        additionalValue:
-          type: string
-          description: Generic field containing additional information relevant to the [_discountEligibilityType_](#tocSproductdiscounteligibilitydoc) specified. Whether mandatory or not is dependent on the value of [_discountEligibilityType_](#tocSproductdiscounteligibilitydoc).
-        additionalInfo:
-          type: string
-          description: Display text providing more information on this eligibility constraint. Mandatory if the [_discountEligibilityType_](#tocSproductdiscounteligibilitydoc) value is `OTHER`.
-        additionalInfoUri:
-          type: string
-          description: Link to a web page with more information on this eligibility constraint.
-          x-cds-type: URIString
-      x-conditional:
-      - additionalInfo
-      - additionalValue
-    BankingProductEligibilityV2:
-      required:
-      - eligibilityType
-      type: object
-      properties:
-        eligibilityType:
-          type: string
-          description: The type of eligibility criteria described. For further details, refer to [Product Eligibility Types](#tocSproducteligibilitytypedoc).
-          enum:
-          - BUSINESS
-          - EMPLOYMENT_STATUS
-          - MAX_AGE
-          - MIN_AGE
-          - MIN_INCOME
-          - MIN_TURNOVER
-          - NATURAL_PERSON
-          - OTHER
-          - PENSION_RECIPIENT
-          - RESIDENCY_STATUS
-          - STAFF
-          - STUDENT
-        additionalValue:
-          type: string
-          description: Generic field containing additional information relevant to the [_eligibilityType_](#tocSproducteligibilitytypedoc) specified. Whether mandatory or not is dependent on the value of [_eligibilityType_](#tocSproducteligibilitytypedoc).
-        additionalInfo:
-          type: string
-          description: Display text providing more information on the [eligibility](#tocSproducteligibilitytypedoc) criteria. Mandatory if the [_eligibilityType_](#tocSproducteligibilitytypedoc) value is `OTHER`.
-        additionalInfoUri:
-          type: string
-          description: Link to a web page with more information on this eligibility criteria.
-          x-cds-type: URIString
-      x-conditional:
-      - additionalValue
-      - additionalInfo
-    BankingFeeDiscountRange:
-      type: object
-      description: A minimum or maximum fee discount amount where a specific fixed amount is not known until the fee is incurred.
-      properties:
-        discountMinimum:
-          type: string
-          description: The minimum fee discount that will be applied per occurrence.
-          x-cds-type: AmountString
-        discountMaximum:
-          type: string
-          description: The maximum fee discount that will be applied per occurrence.
-          x-cds-type: AmountString
-    BankingFeeDiscountAmount:
-      type: object
-      required:
-      - amount
-      properties:
-        amount:
-          type: string
-          description: The specific amount discounted from the fee each time it is incurred.
-          x-cds-type: AmountString
+        totalRecords:
+          type: integer
+          description: The total number of records in the full set. See [pagination](#pagination).
+          x-cds-type: NaturalNumber
+        totalPages:
+          type: integer
+          description: The total number of pages in the full set. See [pagination](#pagination).
+          x-cds-type: NaturalNumber
     BankingProductInstalments:
       description: Details of instalment features on the account.
       required:
@@ -755,6 +414,132 @@ components:
           description: Maximum number of instalment payments a plan can be created with.
           x-cds-type: PositiveInteger
           example: 4
+    BankingProductV6:
+      required:
+      - brand
+      - description
+      - isTailored
+      - lastUpdated
+      - name
+      - productCategory
+      - productId
+      type: object
+      properties:
+        productId:
+          $ref: '#/components/schemas/BankingProductId'
+        effectiveFrom:
+          type: string
+          description: The date and time from which this product is effective (i.e. is available for origination). Used to enable the articulation of products to the regime before they are available for customers to originate.
+          x-cds-type: DateTimeString
+        effectiveTo:
+          type: string
+          description: The date and time at which this product will be retired and will no longer be offered. Used to enable the managed deprecation of products.
+          x-cds-type: DateTimeString
+        lastUpdated:
+          type: string
+          description: The last date and time that the information for this product was changed (or the creation date for the product if it has never been altered).
+          x-cds-type: DateTimeString
+        productCategory:
+          $ref: '#/components/schemas/BankingProductCategoryV2'
+        name:
+          type: string
+          description: The display name of the product.
+        description:
+          type: string
+          description: A description of the product.
+        brand:
+          type: string
+          description: A label of the brand for the product. Able to be used for filtering. For data holders with single brands this value is still required.
+        brandName:
+          type: string
+          description: An optional display name of the brand.
+        brandGroup:
+          type: string
+          x-cds-type: ASCIIString
+          description: The *brandGroup* of a consumer data sharing brand that the product is associated with.
+        applicationUri:
+          type: string
+          description: A link to an application web page where this product can be applied for.
+          x-cds-type: URIString
+        isTailored:
+          type: boolean
+          description: Indicates whether the product is specifically tailored to a circumstance. In this case fees and prices are significantly negotiated depending on context. While all products are open to a degree of tailoring this flag indicates that tailoring is expected and thus that the provision of specific fees and rates is not applicable.
+        additionalInformation:
+          $ref: '#/components/schemas/BankingProductAdditionalInformationV2'
+        cardArt:
+          type: array
+          description: Information about any cards available with the account.
+          items:
+            $ref: '#/components/schemas/BankingProductCardArt'
+    BankingProductCategoryV2:
+      type: string
+      description: The category to which a product or account belongs. See [here](#product-categories) for more details.
+      enum:
+      - BUSINESS_LOANS
+      - BUY_NOW_PAY_LATER
+      - CRED_AND_CHRG_CARDS
+      - LEASES
+      - MARGIN_LOANS
+      - OVERDRAFTS
+      - PERS_LOANS
+      - REGULATED_TRUST_ACCOUNTS
+      - RESIDENTIAL_MORTGAGES
+      - TERM_DEPOSITS
+      - TRADE_FINANCE
+      - TRANS_AND_SAVINGS_ACCOUNTS
+      - TRAVEL_CARDS
+    BankingFeeDiscountRange:
+      type: object
+      description: A minimum or maximum fee discount amount where a specific fixed amount is not known until the fee is incurred.
+      properties:
+        discountMinimum:
+          type: string
+          description: The minimum fee discount that will be applied per occurrence.
+          x-cds-type: AmountString
+        discountMaximum:
+          type: string
+          description: The maximum fee discount that will be applied per occurrence.
+          x-cds-type: AmountString
+    BankingFeeDiscountRate:
+      type: object
+      required:
+      - rateType
+      - rate
+      properties:
+        rateType:
+          type: string
+          description: Type of fee rate discount calculation.<ul><li>`BALANCE` A fee rate discount based on a balance</li><li>`FEE` A fee rate discount based on the fee to which the discount is attached</li><li>`INTEREST_ACCRUED` A fee rate discount based on interest accrued</li><li>`TRANSACTION` A fee rate discount based on a transaction.</li></ul>
+          enum:
+          - BALANCE
+          - FEE
+          - INTEREST_ACCRUED
+          - TRANSACTION
+        rate:
+          type: string
+          x-cds-type: RateString
+          description: The fee rate discount calculated according to the _rateType_.
+        amountRange:
+          $ref: '#/components/schemas/BankingFeeDiscountRange'
+    Links:
+      required:
+      - self
+      type: object
+      properties:
+        self:
+          type: string
+          description: Fully qualified link that generated the current response document.
+          x-cds-type: URIString
+    Meta:
+      type: object
+    BankingFeeAmount:
+      type: object
+      required:
+      - amount
+      properties:
+        amount:
+          type: string
+          description: The specific amount charged for the fee each time it is incurred.
+          x-cds-type: AmountString
     BankingFeeRate:
       type: object
       required:
@@ -867,6 +652,142 @@ components:
       - variable
       - additionalValue
       - additionalInfo
+    BankingProductConstraintV3:
+      required:
+      - constraintType
+      type: object
+      properties:
+        constraintType:
+          type: string
+          description: The type of constraint described. For further details, refer to [Product Constraint Types](#tocSproductconstrainttypedoc).
+          enum:
+          - MAX_BALANCE
+          - MAX_LIMIT
+          - MAX_LVR
+          - MIN_BALANCE
+          - MIN_LIMIT
+          - MIN_LVR
+          - OPENING_BALANCE
+          - OTHER
+        additionalValue:
+          type: string
+          description: Generic field containing additional information relevant to the [_constraintType_](#tocSproductconstrainttypedoc) specified. Whether mandatory or not is dependent on the value of [_constraintType_](#tocSproductconstrainttypedoc).
+        additionalInfo:
+          type: string
+          description: Display text providing more information on the constraint. Mandatory if the [_constraintType_](#tocSproductconstrainttypedoc) value is `OTHER`.
+        additionalInfoUri:
+          type: string
+          description: Link to a web page with more information on the constraint.
+          x-cds-type: URIString
+      x-conditional:
+      - additionalValue
+      - additionalInfo
+    BankingFeeDiscountAmount:
+      type: object
+      required:
+      - amount
+      properties:
+        amount:
+          type: string
+          description: The specific amount discounted from the fee each time it is incurred.
+          x-cds-type: AmountString
+    LinksPaginated:
+      required:
+      - self
+      type: object
+      properties:
+        self:
+          type: string
+          description: Fully qualified link that generated the current response document.
+          x-cds-type: URIString
+        first:
+          type: string
+          description: URI to the first page of this set. Mandatory if this response is not the first page.
+          x-cds-type: URIString
+        prev:
+          type: string
+          description: URI to the previous page of this set. Mandatory if this response is not the first page.
+          x-cds-type: URIString
+        next:
+          type: string
+          description: URI to the next page of this set. Mandatory if this response is not the last page.
+          x-cds-type: URIString
+        last:
+          type: string
+          description: URI to the last page of this set. Mandatory if this response is not the last page.
+          x-cds-type: URIString
+      x-conditional:
+      - prev
+      - next
+      - first
+      - last
+    ResponseBankingProductByIdV7:
+      required:
+      - data
+      - links
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/BankingProductDetailV7'
+        links:
+          $ref: '#/components/schemas/Links'
+        meta:
+          $ref: '#/components/schemas/Meta'
+    BankingProductRateTierV4:
+      required:
+      - minimumValue
+      - name
+      - unitOfMeasure
+      type: object
+      properties:
+        name:
+          type: string
+          description: A display name for the tier.
+        unitOfMeasure:
+          type: string
+          description: The unit of measure that applies to the _minimumValue_ and _maximumValue_ values, e.g.,<ul><li>`DOLLAR` for a dollar amount (with values in AmountString format)<li>`PERCENT` for Loan-to-Value Ratio or LVR (with values in RateString format)<li>`MONTH` or `DAY` for a period representing a discrete number of months or days for a fixed-term deposit or loan (with values as a string containing a positive integer).</ul>
+          enum:
+          - DAY
+          - DOLLAR
+          - MONTH
+          - PERCENT
+        minimumValue:
+          type: string
+          description: The number of _unitOfMeasure_ units that form the lower bound of the tier. The tier should be inclusive of this value.
+        maximumValue:
+          type: string
+          description: 'The number of _unitOfMeasure_ units that form the upper bound of the tier or band. For a tier with a discrete value (as opposed to a range of values e.g., 1 month) this must be the same as _minimumValue_. Where this is the same as the _minimumValue_ value of the next-higher tier the referenced tier should be exclusive of this value. For example a term deposit of 2 months falls into the upper tier of the following tiers: (1 – 2 months, 2 – 3 months). If absent the tier''s range has no upper bound.'
+        rateApplicationMethod:
+          type: string
+          description: The method used to calculate the amount to be applied using one or more tiers. A single rate may be applied to the entire balance or each applicable tier rate is applied to the portion of the balance that falls into that tier (referred to as 'bands' or 'steps').
+          enum:
+          - PER_TIER
+          - WHOLE_BALANCE
+        applicabilityConditions:
+          type: array
+          description: Applicability conditions for the rate tier.
+          items:
+            $ref: '#/components/schemas/BankingProductRateConditionV2'
+        additionalInfo:
+          type: string
+          description: Display text providing more information on the rate tier.
+        additionalInfoUri:
+          type: string
+          description: Link to a web page with more information on this rate tier.
+          x-cds-type: URIString
+      description: Defines the criteria and conditions for which a rate applies.
+    BankingProductAdditionalInformationV2_additionalInformationUris:
+      required:
+      - additionalInfoUri
+      type: object
+      properties:
+        description:
+          type: string
+          description: Display text providing more information about the document URI.
+        additionalInfoUri:
+          type: string
+          description: The URI describing the additional information.
+          x-cds-type: URIString
     BankingProductDiscountV2:
       description: Note that the currency of the fee discount is expected to be the same as the currency of the fee itself.
       required:
@@ -921,49 +842,194 @@ components:
       - rateBased
       - additionalValue
       - eligibility
-    BankingProductRateTierV4:
+    BankingProductDepositRateV2:
       required:
-      - minimumValue
-      - name
-      - unitOfMeasure
+      - depositRateType
+      - rate
+      - applicationType
       type: object
       properties:
-        name:
+        depositRateType:
           type: string
-          description: A display name for the tier.
-        unitOfMeasure:
-          type: string
-          description: The unit of measure that applies to the _minimumValue_ and _maximumValue_ values, e.g.,<ul><li>`DOLLAR` for a dollar amount (with values in AmountString format)<li>`PERCENT` for Loan-to-Value Ratio or LVR (with values in RateString format)<li>`MONTH` or `DAY` for a period representing a discrete number of months or days for a fixed-term deposit or loan (with values as a string containing a positive integer).</ul>
+          description: The type of rate (`FIXED`, `VARIABLE`, `BONUS`, etc.) For further details, refer to [Product Deposit Rate Types](#tocSproductdepositratetypedoc).
           enum:
-          - DAY
-          - DOLLAR
-          - MONTH
-          - PERCENT
-        minimumValue:
+          - BONUS
+          - BUNDLE_BONUS
+          - FIXED
+          - FLOATING
+          - INTRODUCTORY
+          - MARKET_LINKED
+          - VARIABLE
+          example: VARIABLE
+        rate:
           type: string
-          description: The number of _unitOfMeasure_ units that form the lower bound of the tier. The tier should be inclusive of this value.
-        maximumValue:
+          description: The rate to be applied.
+          x-cds-type: RateString
+        calculationFrequency:
           type: string
-          description: 'The number of _unitOfMeasure_ units that form the upper bound of the tier or band. For a tier with a discrete value (as opposed to a range of values e.g., 1 month) this must be the same as _minimumValue_. Where this is the same as the _minimumValue_ value of the next-higher tier the referenced tier should be exclusive of this value. For example a term deposit of 2 months falls into the upper tier of the following tiers: (1 – 2 months, 2 – 3 months). If absent the tier''s range has no upper bound.'
-        rateApplicationMethod:
+          description: The period after which the rate is applied to the balance to calculate the amount due for the period. Calculation of the amount is often daily (as balances may change) but accumulated until the total amount is 'applied' to the account (see _applicationFrequency_). Formatted according to [ISO 8601 Durations](https://en.wikipedia.org/wiki/ISO_8601#Durations) (excludes recurrence syntax).
+          x-cds-type: ExternalRef
+        applicationType:
           type: string
-          description: The method used to calculate the amount to be applied using one or more tiers. A single rate may be applied to the entire balance or each applicable tier rate is applied to the portion of the balance that falls into that tier (referred to as 'bands' or 'steps').
+          description: The type of approach used to apply the rate to the account.
           enum:
-          - PER_TIER
-          - WHOLE_BALANCE
+          - MATURITY
+          - PERIODIC
+          - UPFRONT
+          example: PERIODIC
+        applicationFrequency:
+          type: string
+          description: The period after which the calculated amount(s) (see _calculationFrequency_) are 'applied' (i.e. debited or credited) to the account. Formatted according to [ISO 8601 Durations](https://en.wikipedia.org/wiki/ISO_8601#Durations) (excludes recurrence syntax). Mandatory if the _applicationType_ value is `PERIODIC`.
+          x-cds-type: ExternalRef
+        tiers:
+          type: array
+          description: Qualifying criteria or conditions relevant to the associated rate.
+          items:
+            $ref: '#/components/schemas/BankingProductRateTierV4'
         applicabilityConditions:
           type: array
-          description: Applicability conditions for the rate tier.
+          description: Applicability conditions for the rate.
           items:
             $ref: '#/components/schemas/BankingProductRateConditionV2'
+        additionalValue:
+          type: string
+          description: Generic field containing additional information relevant to the [_depositRateType_](#tocSproductdepositratetypedoc) specified. Whether mandatory or not is dependent on the value of [_depositRateType_](#tocSproductdepositratetypedoc).
         additionalInfo:
           type: string
-          description: Display text providing more information on the rate tier.
+          description: Display text providing more information on the rate.
         additionalInfoUri:
           type: string
-          description: Link to a web page with more information on this rate tier.
+          description: Link to a web page with more information on this rate.
           x-cds-type: URIString
-      description: Defines the criteria and conditions for which a rate applies.
+      x-conditional:
+      - additionalValue
+      - applicationFrequency
+    BankingProductEligibilityV2:
+      required:
+      - eligibilityType
+      type: object
+      properties:
+        eligibilityType:
+          type: string
+          description: The type of eligibility criteria described. For further details, refer to [Product Eligibility Types](#tocSproducteligibilitytypedoc).
+          enum:
+          - BUSINESS
+          - EMPLOYMENT_STATUS
+          - MAX_AGE
+          - MIN_AGE
+          - MIN_INCOME
+          - MIN_TURNOVER
+          - NATURAL_PERSON
+          - OTHER
+          - PENSION_RECIPIENT
+          - RESIDENCY_STATUS
+          - STAFF
+          - STUDENT
+        additionalValue:
+          type: string
+          description: Generic field containing additional information relevant to the [_eligibilityType_](#tocSproducteligibilitytypedoc) specified. Whether mandatory or not is dependent on the value of [_eligibilityType_](#tocSproducteligibilitytypedoc).
+        additionalInfo:
+          type: string
+          description: Display text providing more information on the [eligibility](#tocSproducteligibilitytypedoc) criteria. Mandatory if the [_eligibilityType_](#tocSproducteligibilitytypedoc) value is `OTHER`.
+        additionalInfoUri:
+          type: string
+          description: Link to a web page with more information on this eligibility criteria.
+          x-cds-type: URIString
+      x-conditional:
+      - additionalValue
+      - additionalInfo
+    ResponseBankingProductListV4:
+      required:
+      - data
+      - links
+      - meta
+      type: object
+      properties:
+        data:
+          required:
+          - products
+          type: object
+          properties:
+            products:
+              type: array
+              description: The list of products returned. If the filter results in an empty set then this array may have no records.
+              items:
+                $ref: '#/components/schemas/BankingProductV6'
+        links:
+          $ref: '#/components/schemas/LinksPaginated'
+        meta:
+          $ref: '#/components/schemas/MetaPaginated'
+    BankingProductRateConditionV2:
+      type: object
+      description: Defines a condition for the applicability of a rate.
+      properties:
+        rateApplicabilityType:
+          type: string
+          description: Category of applicability condition associated with the rate. For more information refer to [Rate and Tier Applicability Types](#tocSbankingproductrateconditiondoc).
+          enum:
+          - MIN_DEPOSITS
+          - MIN_DEPOSIT_AMOUNT
+          - DEPOSIT_BALANCE_INCREASED
+          - EXISTING_CUST
+          - NEW_ACCOUNTS
+          - NEW_CUSTOMER
+          - NEW_CUSTOMER_TO_GROUP
+          - ONLINE_ONLY
+          - OTHER
+          - MIN_PURCHASES
+          - MAX_WITHDRAWALS
+          - MAX_WITHDRAWAL_AMOUNT
+          example: NEW_CUSTOMER
+        additionalValue:
+          type: string
+          description: Generic field containing additional information relevant to the _rateApplicabilityType_ specified. Whether mandatory or not is dependent on the value of [_rateApplicabilityType_](#tocSbankingproductrateconditiondoc).
+        additionalInfo:
+          type: string
+          description: Display text providing more information on the condition. Mandatory if the [_rateApplicabilityType_](#tocSbankingproductrateconditiondoc) value is `OTHER`.
+        additionalInfoUri:
+          type: string
+          description: Link to a web page with more information on this condition.
+          x-cds-type: URIString
+      required:
+      - rateApplicabilityType
+      x-conditional:
+      - additionalValue
+      - additionalInfo
+    BankingProductDiscountEligibility:
+      required:
+      - discountEligibilityType
+      type: object
+      properties:
+        discountEligibilityType:
+          type: string
+          description: The type of the specific eligibility constraint for a discount. For further details, refer to [Product Discount Eligibility Types](#tocSproductdiscounteligibilitydoc).
+          enum:
+          - BUSINESS
+          - EMPLOYMENT_STATUS
+          - INTRODUCTORY
+          - MAX_AGE
+          - MIN_AGE
+          - MIN_INCOME
+          - MIN_TURNOVER
+          - NATURAL_PERSON
+          - OTHER
+          - PENSION_RECIPIENT
+          - RESIDENCY_STATUS
+          - STAFF
+          - STUDENT
+        additionalValue:
+          type: string
+          description: Generic field containing additional information relevant to the [_discountEligibilityType_](#tocSproductdiscounteligibilitydoc) specified. Whether mandatory or not is dependent on the value of [_discountEligibilityType_](#tocSproductdiscounteligibilitydoc).
+        additionalInfo:
+          type: string
+          description: Display text providing more information on this eligibility constraint. Mandatory if the [_discountEligibilityType_](#tocSproductdiscounteligibilitydoc) value is `OTHER`.
+        additionalInfoUri:
+          type: string
+          description: Link to a web page with more information on this eligibility constraint.
+          x-cds-type: URIString
+      x-conditional:
+      - additionalInfo
+      - additionalValue
     ErrorV2:
       type: object
       required:
@@ -991,130 +1057,64 @@ components:
             urn:
               type: string
               description: The CDR error code URN which the application-specific error code extends. Mandatory if the error _code_ is an application-specific error rather than a standardised error code.
-    BankingProductAdditionalInformationV2_additionalInformationUris:
+    BankingProductBundle:
       required:
-      - additionalInfoUri
+      - description
+      - name
       type: object
       properties:
+        name:
+          type: string
+          description: Name of the bundle.
         description:
           type: string
-          description: Display text providing more information about the document URI.
-        additionalInfoUri:
-          type: string
-          description: The URI describing the additional information.
-          x-cds-type: URIString
-    BankingProductLendingRateV3:
-      required:
-      - lendingRateType
-      - rate
-      - applicationType
-      - repaymentType
-      - loanPurpose
-      type: object
-      properties:
-        lendingRateType:
-          type: string
-          description: The type of rate (`FIXED`, `VARIABLE`, etc.) For further details, refer to [Product Lending Rate Types](#tocSproductlendingratetypedoc).
-          enum:
-          - BALANCE_TRANSFER
-          - BUNDLE_DISCOUNT_FIXED
-          - BUNDLE_DISCOUNT_VARIABLE
-          - CASH_ADVANCE
-          - DISCOUNT
-          - FIXED
-          - FLOATING
-          - INTRODUCTORY
-          - MARKET_LINKED
-          - PENALTY
-          - PURCHASE
-          - VARIABLE
-          example: FIXED
-        rate:
-          type: string
-          description: The rate to be applied.
-          x-cds-type: RateString
-        comparisonRate:
-          type: string
-          description: A comparison rate equivalent for this rate.
-          x-cds-type: RateString
-        calculationFrequency:
-          type: string
-          description: The period after which the rate is applied to the balance to calculate the amount due for the period. Calculation of the amount is often daily (as balances may change) but accumulated until the total amount is 'applied' to the account (see _applicationFrequency_). Formatted according to [ISO 8601 Durations](https://en.wikipedia.org/wiki/ISO_8601#Durations) (excludes recurrence syntax).
-          x-cds-type: ExternalRef
-        applicationType:
-          type: string
-          description: The type of approach used to apply the rate to the account.
-          enum:
-          - MATURITY
-          - PERIODIC
-          - UPFRONT
-          example: PERIODIC
-        applicationFrequency:
-          type: string
-          description: The period after which the calculated amount(s) (see _calculationFrequency_) are 'applied' (i.e. debited or credited) to the account. Formatted according to [ISO 8601 Durations](https://en.wikipedia.org/wiki/ISO_8601#Durations) (excludes recurrence syntax). Mandatory if the _applicationType_ value is `PERIODIC`.
-          x-cds-type: ExternalRef
-        interestPaymentDue:
-          type: string
-          description: When loan payments are due to be paid within each period. The investment benefit of earlier payments affect the rate that can be offered.
-          enum:
-          - IN_ADVANCE
-          - IN_ARREARS
-        repaymentType:
-          type: string
-          description: Option in place for repayments.
-          enum:
-          - INTEREST_ONLY
-          - OTHER
-          - PRINCIPAL_AND_INTEREST
-          - UNCONSTRAINED
-        loanPurpose:
-          type: string
-          description: The reason for taking out the loan.
-          enum:
-          - INVESTMENT
-          - OTHER
-          - OWNER_OCCUPIED
-          - UNCONSTRAINED
-        tiers:
-          type: array
-          description: Qualifying criteria or conditions relevant to the associated rate.
-          items:
-            $ref: '#/components/schemas/BankingProductRateTierV4'
-        applicabilityConditions:
-          type: array
-          description: Applicability conditions for the rate.
-          items:
-            $ref: '#/components/schemas/BankingProductRateConditionV2'
-        additionalValue:
-          type: string
-          description: Generic field containing additional information relevant to the [_lendingRateType_](#tocSproductlendingratetypedoc) specified. Whether mandatory or not is dependent on the value of [_lendingRateType_](#tocSproductlendingratetypedoc).
+          description: Description of the bundle.
         additionalInfo:
           type: string
-          description: Display text providing more information on the rate.
+          description: Display text providing more information on the bundle.
         additionalInfoUri:
           type: string
-          description: Link to a web page with more information on this rate.
+          description: Link to a web page with more information on the bundle criteria and benefits.
           x-cds-type: URIString
-      x-conditional:
-      - additionalValue
-      - applicationFrequency
-    BankingProductCategoryV2:
+        productIds:
+          type: array
+          description: Array of _productID_ values for products included in the bundle that are available via the product endpoints. Note that this array is not intended to represent a comprehensive model of the products included in the bundle and some products available for the bundle may not be available via the product reference endpoints.
+          items:
+            $ref: '#/components/schemas/BankingProductId'
+    BankingProductId:
       type: string
-      description: The category to which a product or account belongs. See [here](#product-categories) for more details.
-      enum:
-      - BUSINESS_LOANS
-      - BUY_NOW_PAY_LATER
-      - CRED_AND_CHRG_CARDS
-      - LEASES
-      - MARGIN_LOANS
-      - OVERDRAFTS
-      - PERS_LOANS
-      - REGULATED_TRUST_ACCOUNTS
-      - RESIDENTIAL_MORTGAGES
-      - TERM_DEPOSITS
-      - TRADE_FINANCE
-      - TRANS_AND_SAVINGS_ACCOUNTS
-      - TRAVEL_CARDS
+      description: A data holder-specific unique identifier for a Banking product. This identifier must be unique to a product but does not otherwise need to adhere to ID permanence guidelines.
+      x-cds-type: ASCIIString
+    BankingProductCardArt:
+      required:
+      - cardScheme
+      - cardType
+      - imageUri
+      type: object
+      properties:
+        cardScheme:
+          type: string
+          description: Card scheme available with the account.
+          enum:
+          - AMEX
+          - EFTPOS
+          - MASTERCARD
+          - VISA
+          - OTHER
+        cardType:
+          type: string
+          description: Card type available with the account.
+          enum:
+          - CHARGE
+          - CREDIT
+          - DEBIT
+        title:
+          type: string
+          description: Display label for the specific image.
+        imageUri:
+          type: string
+          description: URI reference to a PNG, JPG or GIF image with proportions defined by ISO 7810 ID-1 and width no greater than 512 pixels. The URI reference may be a link or url-encoded data URI according to **[[RFC2397]](#nref-RFC2397)**.
+          x-cds-type: URIString
   headers:
     XV:
       description: The [payload version](#response-headers) that the endpoint has responded with.
@@ -1122,29 +1122,8 @@ components:
       schema:
         type: string
   responses:
-    ListBankingProducts400:
-      description: The following error codes **MUST** be supported:<br/><ul class="error-code-list"><li>[400 - Invalid Field](#error-400-field-invalid)</li><li>[400 - Missing Required Field](#error-400-field-missing)</li><li>[400 - Missing Required Header](#error-400-header-missing)</li><li>[400 - Invalid Version](#error-400-header-invalid-version)</li><li>[400 - Invalid Date](#error-400-field-invalid-date-time)</li><li>[400 - Invalid Page Size](#error-400-field-invalid-page-size)</li></ul>
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ResponseErrorListV2'
-    ListBankingProducts200:
-      description: Successful response
-      headers:
-        x-v:
-          $ref: '#/components/headers/XV'
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ResponseBankingProductListV4'
-    GetBankingProductDetail406:
-      description: The following error codes **MUST** be supported:<br/><ul class="error-code-list"><li>[406 - Unsupported Version](#error-406-header-unsupported-version)</li></ul>
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ResponseErrorListV2'
-    ListBankingProducts406:
-      description: The following error codes **MUST** be supported:<br/><ul class="error-code-list"><li>[406 - Unsupported Version](#error-406-header-unsupported-version)</li></ul>
+    GetBankingProductDetail400:
+      description: The following error codes **MUST** be supported:<br/><ul class="error-code-list"><li>[400 - Invalid Field](#error-400-field-invalid)</li><li>[400 - Missing Required Field](#error-400-field-missing)</li><li>[400 - Missing Required Header](#error-400-header-missing)</li><li>[400 - Invalid Version](#error-400-header-invalid-version)</li></ul>
       content:
         application/json:
           schema:
@@ -1158,8 +1137,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ResponseBankingProductByIdV7'
-    GetBankingProductDetail400:
-      description: The following error codes **MUST** be supported:<br/><ul class="error-code-list"><li>[400 - Invalid Field](#error-400-field-invalid)</li><li>[400 - Missing Required Field](#error-400-field-missing)</li><li>[400 - Missing Required Header](#error-400-header-missing)</li><li>[400 - Invalid Version](#error-400-header-invalid-version)</li></ul>
+    GetBankingProductDetail406:
+      description: The following error codes **MUST** be supported:<br/><ul class="error-code-list"><li>[406 - Unsupported Version](#error-406-header-unsupported-version)</li></ul>
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseErrorListV2'
+    ListBankingProducts400:
+      description: The following error codes **MUST** be supported:<br/><ul class="error-code-list"><li>[400 - Invalid Field](#error-400-field-invalid)</li><li>[400 - Missing Required Field](#error-400-field-missing)</li><li>[400 - Missing Required Header](#error-400-header-missing)</li><li>[400 - Invalid Version](#error-400-header-invalid-version)</li><li>[400 - Invalid Date](#error-400-field-invalid-date-time)</li><li>[400 - Invalid Page Size](#error-400-field-invalid-page-size)</li></ul>
       content:
         application/json:
           schema:
@@ -1170,6 +1155,21 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ResponseErrorListV2'
+    ListBankingProducts406:
+      description: The following error codes **MUST** be supported:<br/><ul class="error-code-list"><li>[406 - Unsupported Version](#error-406-header-unsupported-version)</li></ul>
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseErrorListV2'
+    ListBankingProducts200:
+      description: Successful response
+      headers:
+        x-v:
+          $ref: '#/components/headers/XV'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseBankingProductListV4'
     GetBankingProductDetail404:
       description: The following error codes **MUST** be supported:<br/><ul class="error-code-list"><li>[404 - Unavailable Resource](#error-404-resource-unavailable)</li><li>[404 - Invalid Resource](#error-404-resource-invalid)</li></ul>
       content:
@@ -1177,6 +1177,12 @@ components:
           schema:
             $ref: '#/components/schemas/ResponseErrorListV2'
   parameters:
+    QueryBankingProductCategory:
+      name: product-category
+      in: query
+      description: Used to filter results on the _productCategory_ field applicable to accounts. Any one of the valid values for this field can be supplied. If absent then all accounts returned.
+      schema:
+        $ref: '#/components/schemas/BankingProductCategoryV2'
     HeaderXV:
       name: x-v
       in: header
@@ -1184,26 +1190,6 @@ components:
       required: true
       schema:
         type: string
-    QueryBankingProductCategory:
-      name: product-category
-      in: query
-      description: Used to filter results on the _productCategory_ field applicable to accounts. Any one of the valid values for this field can be supplied. If absent then all accounts returned.
-      schema:
-        $ref: '#/components/schemas/BankingProductCategoryV2'
-    HeaderXMinV:
-      name: x-min-v
-      in: header
-      description: Minimum version of the API endpoint requested by the client. Must be set to a positive integer if provided. The endpoint should respond with the highest supported version between [_x-min-v_](#request-headers) and [_x-v_](#request-headers). If all versions requested are not supported then the endpoint **MUST** respond with a `406 Not Acceptable`.
-      schema:
-        type: string
-    QueryPageSize:
-      name: page-size
-      in: query
-      description: Page size to request. Default is 25 (standard pagination).
-      schema:
-        type: integer
-        default: 25
-      x-cds-type: PositiveInteger
     QueryPage:
       name: page
       in: query
@@ -1212,3 +1198,17 @@ components:
         type: integer
         default: 1
       x-cds-type: PositiveInteger
+    QueryPageSize:
+      name: page-size
+      in: query
+      description: Page size to request. Default is 25 (standard pagination).
+      schema:
+        type: integer
+        default: 25
+      x-cds-type: PositiveInteger
+    HeaderXMinV:
+      name: x-min-v
+      in: header
+      description: Minimum version of the API endpoint requested by the client. Must be set to a positive integer if provided. The endpoint should respond with the highest supported version between [_x-min-v_](#request-headers) and [_x-v_](#request-headers). If all versions requested are not supported then the endpoint **MUST** respond with a `406 Not Acceptable`.
+      schema:
+        type: string

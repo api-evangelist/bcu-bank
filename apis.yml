@@ -38,6 +38,15 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/bcu-bank.png
 tags:
+- Finance
+- Banks
+- Open Banking
+- CDR
+- Consumer Data Right
+- Consumer Banking
+- Mutual Bank
+- Australia
+tags_raw:
 - Financial
 - Banks
 - Open Banking
