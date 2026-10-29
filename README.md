@@ -1,4 +1,4 @@
-# BCU Bank (bcu-bank)
+# BCU Bank
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,83 +64,134 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-BCU Bank is a customer-owned banking brand operated by Police & Nurses Limited (ABN 69 087 651 876), the mutual bank formed when Bananacoast Community Credit Union merged into the P&N Group. Headquartered on the New South Wales north coast, BCU serves retail and business members with everyday accounts, savings, home and personal lending, and cards. As an Authorised Deposit-taking Institution (ADI) it is a Consumer Data Right (CDR) Data Holder, exposing a public Product Reference Data API and supporting consumer data sharing to accredited data recipients under Australia's Open Banking regime.
+BCU Bank is a customer-owned banking brand operated by Police & Nurses Limited (ABN 69 087 651 876), the mutual bank formed when Bananacoast Community Credit Union merged into the P&N Group. Headquartered on the New South Wales north coast, BCU serves retail and business members with everyday accounts, savings, home and personal lending, and cards. As an Authorised Deposit-taking Institution, BCU is a Consumer Data Right (CDR) Data Holder that exposes a public, unauthenticated Product Reference Data (PRD) API under the DSB Consumer Data Standards, and supports consumer data sharing to accredited data recipients through the CDR consent and Open Banking model. BCU does not run a general-purpose developer portal; its programmatic surface is the standards-based CDR banking API.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/bcu-bank/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/bcu-bank/refs/heads/main/apis.yml)
+**Areas:** Finance · Banks · Open Banking · CDR · Consumer Data Right · Consumer Banking · Mutual Bank · Australia
 
-## Tags
+## BCU Bank on APIs.io
 
-- Financial
-- Banks
-- Open Banking
-- CDR
-- Consumer Data Right
-- Consumer Banking
-- Mutual Bank
-- Australia
+Everything profiled for BCU Bank is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/bcu-bank/](https://apis.io/providers/bcu-bank/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (7)
 
-- **Created:** 2026-07-20
-- **Modified:** 2026-07-20
+- [BCU Bank Banking Account Balances API](https://apis.io/apis/bcu-bank/bcu-bank-banking-account-balances-api/) — Banking Account Balance endpoints
+- [BCU Bank Banking Account Direct Debits API](https://apis.io/apis/bcu-bank/bcu-bank-banking-account-direct-debits-api/) — Banking Account Direct Debit endpoints
+- [BCU Bank Banking Account Scheduled Payments API](https://apis.io/apis/bcu-bank/bcu-bank-banking-account-scheduled-payments-api/) — Banking Account Scheduled Payment endpoints
+- [BCU Bank Banking Account Transactions API](https://apis.io/apis/bcu-bank/bcu-bank-banking-account-transactions-api/) — Banking Account Transaction endpoints
+- [BCU Bank Banking Accounts API](https://apis.io/apis/bcu-bank/bcu-bank-banking-accounts-api/) — Banking Account endpoints
+- [BCU Bank Banking Payees API](https://apis.io/apis/bcu-bank/bcu-bank-banking-payees-api/) — Banking Payee endpoints
+- [BCU Bank Banking Products API](https://apis.io/apis/bcu-bank/bcu-bank-banking-products-api/) — Banking Product endpoints
 
-## APIs
+### Published properties
 
-### BCU Bank CDR Product Reference Data API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Public, unauthenticated Consumer Data Right Product Reference Data (PRD) API conforming to the DSB Consumer Data Standards. `GET /banking/products` (and `/banking/products/{productId}`) returns BCU's openly available banking products — transaction and savings accounts, residential mortgages, personal loans and cards — with fees, rates and eligibility. Confirmed live (HTTP 200, `x-v` up to 5, 76 products, brand "BCU").
+#### MCP servers (1)
 
-- **Human URL:** [https://www.bcu.com.au/consumer-data-right-policy](https://www.bcu.com.au/consumer-data-right-policy)
-- **Base URL:** `https://public.cdr-api.bcu.com.au/cds-au/v1`
+Model Context Protocol servers that expose the API to agents.
 
-#### Tags
+- [bcu-bank](https://apis.io/servers/bcu-bank/bcu-bank/)
 
-- CDR
-- Open Banking
-- Product Reference Data
-- Banking Products
-- Public API
+#### Agentic access (1)
 
-#### Properties
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- [Documentation](https://www.bcu.com.au/consumer-data-right-policy)
-- [API Reference](https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api_get-products)
-- [OpenAPI](openapi/bcu-bank-cds-banking-products-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Bcu Bank Agentic Access](https://apis.io/agentic-access/bcu-bank/bcu-bank-agentic-access/)
 
-### BCU Bank CDR Consumer Data Sharing API
+#### Collections (7)
 
-Authenticated Consumer Data Right banking data-sharing surface (accounts, balances, transactions, direct debits, payees and payment scheduling) defined by the DSB Consumer Data Standards. Not public — access is restricted to CDR Accredited Data Recipients acting on explicit member consent via the CDR OAuth2/OIDC FAPI authorization and consent flow.
+Postman and Open Collection request collections.
 
-- **Human URL:** [https://www.bcu.com.au/consumer-data-right-policy](https://www.bcu.com.au/consumer-data-right-policy)
-- **Base URL:** `https://public.cdr-api.bcu.com.au/cds-au/v1`
+- [CDR Banking Banking Account Balances API](https://apis.io/collections/bcu-bank/open-bcu-bank-banking-account-balances-api/)
+- [CDR Banking Banking Account Balances Banking Account Direct Debits API](https://apis.io/collections/bcu-bank/open-bcu-bank-banking-account-direct-debits-api/)
+- [CDR Banking Banking Account Balances Banking Account Scheduled Payments API](https://apis.io/collections/bcu-bank/open-bcu-bank-banking-account-scheduled-payments-api/)
+- [CDR Banking Banking Account Balances Banking Account Transactions API](https://apis.io/collections/bcu-bank/open-bcu-bank-banking-account-transactions-api/)
+- [CDR Banking Banking Account Balances Banking Accounts API](https://apis.io/collections/bcu-bank/open-bcu-bank-banking-accounts-api/)
+- [CDR Banking Banking Account Balances Banking Payees API](https://apis.io/collections/bcu-bank/open-bcu-bank-banking-payees-api/)
+- [CDR Banking Banking Account Balances Banking Products API](https://apis.io/collections/bcu-bank/open-bcu-bank-banking-products-api/)
 
-#### Tags
+#### Overlays (1)
 
-- CDR
-- Open Banking
-- Consumer Data Sharing
-- OIDC
-- FAPI
+OpenAPI overlays, including conversational phrasing for each operation.
 
-#### Properties
+- [Bcu Bank Cds Banking Products Overlay](https://apis.io/overlays/bcu-bank/bcu-bank-cds-banking-products-overlay/)
 
-- [Documentation](https://www.bcu.com.au/consumer-data-right-policy)
-- [API Reference](https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api)
-- [OpenAPI](openapi/bcu-bank-cds-banking-products-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+#### Security (3)
 
-## Common Properties
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Bcu Bank Authentication](https://apis.io/security/bcu-bank/bcu-bank-authentication/)
+- [Bcu Bank Domain Security](https://apis.io/security/bcu-bank/bcu-bank-domain-security/)
+- [Bcu Bank Vulnerability Disclosure](https://apis.io/security/bcu-bank/bcu-bank-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Bcu Bank Scopes](https://apis.io/scopes/bcu-bank/bcu-bank-scopes/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.bcu.com.au/)
-- [About](https://www.bcu.com.au/about/)
-- [Documentation](https://www.bcu.com.au/consumer-data-right-policy)
-- [LinkedIn](https://www.linkedin.com/company/bcu)
-- [Blog](https://www.bcu.com.au/news-and-media/)
-- [Terms of Service](https://www.bcu.com.au/important-information/terms-and-conditions/)
-- [Privacy Policy](https://www.bcu.com.au/important-information/privacy/)
+- [Documentation](https://www.bcu.com.au/help-centre/open-banking/bcu-bank-products-api/)
+- [API reference](https://consumerdatastandardsaustralia.github.io/standards/#cdr-banking-api)
 - [Support](https://www.bcu.com.au/help-centre/)
-- [Contact](https://www.bcu.com.au/contact/)
+- [Blog](https://www.bcu.com.au/news-and-media/)
+- [Compliance](https://www.bcu.com.au/consumer-data-right-policy/)
+- [Terms of service](https://www.bcu.com.au/important-information/terms-and-conditions/)
+- [Privacy policy](https://www.bcu.com.au/important-information/privacy/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 38.9** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 44.7 |
+| Contract governance | 4.5 |
+| Operational transparency | 18.4 |
+| Developer ergonomics | 37.5 |
+| Access clarity | 28.9 |
+
+**Agent readiness 18.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 52.8** — Banking & Open Finance
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/bcu-bank/](https://apis.io/providers/bcu-bank/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for BCU Bank: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/bcu-bank/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
